@@ -1,1 +1,20 @@
-
+RESEARCH OUTLINE:SECURITY BASICS 
+1:What is Encryption?
+●Process of converting data into a coded format to prevent unauthorized access.
+●Ensures that even if data is intercepted, it cannot be interpreted without the key.
+2:What is Hashing?
+● It's a One way function that converts data such as passwords  into  fixed-length strings.
+●Original data cannot be easily recovered from the hash.
+3:Why Password Protection is Important
+●Prevents unauthorized access to accounts and sensitive data.
+●Protects personal, financial, and business information from attackers.
+4:Why Storing Plain Passwords is Risky
+●If a database is breached, plain passwords can be stolen and reused.
+●Exposes users to account compromise across multiple services.
+5:What is Multi Factor Authentication(MFA)?
+●Security method that requires two or more forms of verification.
+●Adds an extra secure layer beyond just a password.
+6:Why Browser Storage Isn’t Fully Secure
+●Data stored in local storage can be accessed by scripts or malware.
+●Vulnerable to XSS attacks or other client side exploits.
+●It Should not be relied on for highly sensitive information.
