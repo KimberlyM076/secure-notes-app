@@ -22,4 +22,6 @@ Team Members and Roles:
 - UI - Not Started
 - Testing & Documentation - Not Started
 
-11:50AM - No Response
+11:40AM - No Response
+11:50AM - Reasearch team member responds
+13:40PM - No Response (Direct messages were viewed but not replied to Isaiah and Jasmin)
