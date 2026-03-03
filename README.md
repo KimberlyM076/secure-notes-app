@@ -3,7 +3,7 @@ Work experience Secure Notes Web App Project
 
 # Secure Notes Web App
 This project is a simple secure notes web application built using HTML, CSS, JavaScript and LocalStorage.
-(DAY 1)
+
 Team Members and Roles:
 - Kim – Project Manager
 - Tyrese – Research & Security
