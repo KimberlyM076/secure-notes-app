@@ -40,7 +40,7 @@ What is Multi-Factor Authentication?
 Why Browser Storage Isn’t Fully Secure
 No full paragraphs yet, just brief summary and of your understanding
  
-Kim - Testing and Documentation
+Del - Testing and Documentation
 Create Word file and add:
 Project Title
 Team Names + Roles
