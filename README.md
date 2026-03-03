@@ -15,9 +15,9 @@ Team Members and Roles:
 (DAY 2)
 ## Task Progress
 
-Project Manager – In Progress
-Research – Not Started
-Front End – Not Started
-JavaScript – Not Started
-UI – Not Started
-Testing & Documentation – Not Started
+- Project Manager - In Prgress
+- Research & Security - Not Started
+- Front End - Not Started
+- JavaScript - Not Started
+- UI - Not Started
+- Testing & Documentation - Not Started
