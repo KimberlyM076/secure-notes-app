@@ -64,4 +64,4 @@ Progress
 - 11:40AM - No Response
 - 11:50AM - Reasearch team member responds
 - 13:40PM - No Response (Direct messages were sent to Jasmin and Isaiah but they did not reply)
-- 14:01PM - 1 response from Research and has accepted GitHub invite
+- 14:01PM - 1 response from Research and has accepted GitHub invite and is working on said task
