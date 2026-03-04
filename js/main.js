@@ -31,3 +31,16 @@ function handleAuth() {
         }
     }
 }
+
+let logoutTimer;
+
+function startAutoLogout() {
+    clearTimeout(logoutTimer);
+    logoutTimer = setTimeout(() => {
+        alert('You have been logged out due to inactivity.');
+        window.location.href = 'index.html';
+    }, 5 * 60 * 1000); // 5 minutes
+}
+
+document.addEventListener("click", startAutoLogout);
+document.addEventListener("keypress", startAutoLogout);
