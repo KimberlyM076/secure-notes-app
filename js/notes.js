@@ -90,14 +90,24 @@ function renderNotes() {
     notes.forEach(note => {
         const noteDiv = document.createElement('div');
         noteDiv.classList.add('note');
-        noteDiv.innerHTML = `
-            <h3>${note.title}</h3>
-            <p>${note.content}</p>
-            <small>Created: ${new Date(note.createdAt).toLocaleString()}</small><br>
-            <small>Updated: ${new Date(note.updatedAt).toLocaleString()}</small><br>
-            <button onclick="deleteNote('${note.id}')">Delete</button>
-            <button onclick="updateNotePrompt('${note.id}')">Edit</button>
-        `;
+        
+        const titleElement = document.createElement("h3");
+        titleElement.textContent = note.title;
+
+        const contentElement = document.createElement("p");
+        contentElement.textContent = note.content;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.addEventListener("click", () => {
+            deleteNote(note.id);
+            renderNotes();
+        });
+
+        noteDiv.appendChild(titleElement);
+        noteDiv.appendChild(contentElement);
+        noteDiv.appendChild(deleteBtn);
+
         container.appendChild(noteDiv);
     });
 }
