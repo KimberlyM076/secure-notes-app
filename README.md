@@ -59,3 +59,13 @@ Not too much writing please!!
 - JavaScript - In Progress
 - UI - In Progress
 - Testing & Documentation - In Progress
+
+
+### The js folder structure and their purpose:
+- js/
+    - 
+auth.js -> Auth and password hashing
+notes.js -> Create, read, update, delete notes
+storage.js -> LocalStorage management
+crypto.js -> Future encryption functions
+main.js -> Session management and page initialization

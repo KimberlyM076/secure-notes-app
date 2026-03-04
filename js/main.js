@@ -1,3 +1,7 @@
+if (!sessionStorage.getItem("isAuthenticated")) {
+    window.location.href = "index.html";
+}
+
 function hashPassword(password) {
     return btoa(password);
 }
@@ -44,3 +48,32 @@ function startAutoLogout() {
 
 document.addEventListener("click", startAutoLogout);
 document.addEventListener("keypress", startAutoLogout);
+
+//reset timer on user activity
+function resetTimer() {
+    startAutoLogout();
+}
+
+document.addEventListener('click', resetTimer);
+document.addEventListener('keypress', resetTimer);
+document.addEventListener('mousemove', resetTimer);
+
+//start timer immediately on page load
+startAutoLogout();
+
+//event listener for notes page
+document.addEventListener("DOMContentLoaded", () => {
+    const saveBtn = document.getElementById("saveNoteBtn");
+
+    if (saveBtn) {
+        saveBtn.addEventListener("click", () => {
+            const title = document.getElementById("noteTitle").value;
+            const content = document.getElementById("noteContent").value;
+
+            createNote(title, content);
+            renderNotes();
+        });
+    }
+
+    renderNotes();
+});
