@@ -7,6 +7,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <script>
+        if (!sessionStorage.getItem("isAuthenticated")) {
+            window.location.href = "index.html";
+        }
+    </script>
+
+    <header>    
+        <div class="logo-container">
+        <img src="logo.png" alt="Secure Notes Logo" class="logo">
+        </div>
+
+        <nav class="nav-links">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="notes.html">Notes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1>Your Secure Notes</h1>
+    <p>Welcome to your secure notes! Here you can create, view, and manage your private notes securely.</p>
 </body>
 </html>
