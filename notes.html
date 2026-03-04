@@ -11,22 +11,15 @@
         if (!sessionStorage.getItem("isAuthenticated")) {
             window.location.href = "index.html";
         }
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+        sessionStorage.removeItem("isAuthenticated");
+            window.location.href = "index.html";
+        });
     </script>
 
-    <header>    
-        <div class="logo-container">
-        <img src="logo.png" alt="Secure Notes Logo" class="logo">
-        </div>
+    <button id="logoutBtn">Logout</button>
 
-        <nav class="nav-links">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="notes.html">Notes</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <h1>Your Secure Notes</h1>
-    <p>Welcome to your secure notes! Here you can create, view, and manage your private notes securely.</p>
+    
 </body>
 </html>
