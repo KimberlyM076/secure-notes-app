@@ -24,23 +24,29 @@
 
 </header>
 
-<div class="notes-container">
 
-<div class="note-card">
-<h3>Example Note</h3>
-<p>This is where notes will appear.</p>
-<button>Edit</button>
-<button>Delete</button>
+<!-- Note input section -->
+<div class="note-editor">
+
+<input
+type="text"
+id="noteTitle"
+placeholder="Note title"
+/>
+
+<textarea
+id="noteContent"
+placeholder="Write your note..."
+></textarea>
+
+<button id="saveNoteBtn">
+Save Note
+</button>
+
 </div>
 
-<div class="note-card">
-<h3>Another Note</h3>
-<p>Your saved notes will show here.</p>
-<button>Edit</button>
-<button>Delete</button>
-</div>
-
-</div>
+<!-- Notes will appear here -->
+<div id="notesContainer"></div>
 
 </body>
 </html>
