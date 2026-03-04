@@ -1,52 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lotus Notes</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lotus Notes</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-<header>
+  <header>
+    <div class="logo-container">
+      <img src="Logo.png" alt="Lotus Notes Logo" class="logo" />
+    </div>
 
-<div class="logo-container">
-<img src="Logo.png" alt="Lotus Notes Logo" class="logo">
-</div>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="notes.html">Notes</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<nav class="nav-links">
-<ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="notes.html">Notes</a></li>
-</ul>
-</nav>
+  <h1>My Notes</h1>
 
-</header>
+  <!-- Note Creation Form -->
+  <div class="note-editor">
+    <input id="noteTitle" type="text" placeholder="Note title" />
 
+    <textarea id="noteContent" placeholder="Write your note..."></textarea>
 
-<!-- Note input section -->
-<div class="note-editor">
+    <button id="saveNoteBtn" type="button">Save Note</button>
+  </div>
 
-<input
-type="text"
-id="noteTitle"
-placeholder="Note title"
-/>
+  <!-- Notes Display Area -->
+  <div id="notesContainer" class="notes-container"></div>
 
-<textarea
-id="noteContent"
-placeholder="Write your note..."
-></textarea>
-
-<button id="saveNoteBtn">
-Save Note
-</button>
-
-</div>
-
-<!-- Notes will appear here -->
-<div id="notesContainer"></div>
+  <!-- Logout Button -->
+  <button id="LogoutBtn" class="logout-btn" type="button">Logout</button>
 
 </body>
 </html>
