@@ -1,20 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Secure Notes App</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lotus Notes</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h1>Secure Notes</h1>
+  <!-- Header -->
+  <header>
 
-    <div id="login-section">
-        <input type="password" id="passwordInput" placeholder="Enter password">
-        <button onclick="checkLogin()">Login</button>
-        <p id="errorMessage"></p>
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="Logo.png" alt="Lotus Notes Logo" class="logo">
     </div>
 
-    <script src="script.js"></script>
+    <!-- Navigation -->
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html">Login</a></li>
+        <li><a href="notes.html">Notes</a></li>
+      </ul>
+    </nav>
+
+  </header>
+
+  <!-- Login Section -->
+  <div id="login-section">
+    <input type="password" id="passwordInput" placeholder="Enter password">
+    <button id="authButton">Continue</button>
+    <p id="errorMessage"></p>
+  </div>
+
+  <script src="script.js"></script>
 
 </body>
 </html>
+
