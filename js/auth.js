@@ -103,6 +103,15 @@ async function handleSignup() {
 
 //login logic
 async function handleLogin() {
+
+    async function handleLogin() {
+    console.log("Login function triggered");
+
+    const passwordInput = document.getElementById('loginPassword');
+    const message = document.getElementById('loginMessage');
+
+}
+
     const passwordInput = document.getElementById('loginPassword');
     const message = document.getElementById('loginMessage');
 

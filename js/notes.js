@@ -88,20 +88,18 @@ function clearAllNotes() {
 }
 
 function renderNotes() {
-    const notes = getNotes();
     const container = document.getElementById('notesContainer');
 
-    //if no notes, show message: no notes yet
-    if (notes.length === 0) {
-    container.textContent = "No notes yet.";
-    return;
+    if (!container) {
+        console.warn("notesContainer not found.");
+        return;
     }
-    
-    if (!container) {        
-//For testing - this should never happen if HTML is correct
-        console.log("Rendering notes...");
 
-        return; //prevents crash if HTML is not ready yet
+    const notes = getNotes();
+
+    if (notes.length === 0) {
+        container.textContent = "No notes yet.";
+        return;
     }
 
     container.innerHTML = '';
@@ -119,8 +117,7 @@ function renderNotes() {
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
         deleteBtn.addEventListener("click", () => {
-            deleteNote(note.id);
-            renderNotes();
+        deleteNote(note.id);
         });
 
         noteDiv.appendChild(titleElement);
@@ -131,9 +128,43 @@ function renderNotes() {
     });
 }
 
-export { createNote, deleteNote, updateNote, getNoteById, clearAllNotes };
+export { createNote, deleteNote, updateNote, getNoteById, clearAllNotes, renderNotes };
 
-window.createNote = createNote;
-window.deleteNote = deleteNote;
-window.renderNotes = renderNotes;
-window.updateNotePrompt = updateNotePrompt;
+document.addEventListener('DOMContentLoaded', () => {
+    renderNotes();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+
+    if (!isAuthenticated) {
+        window.location.href = 'index.html'; // or login.html
+        return;
+    }
+
+    renderNotes();
+
+    // Save note button
+    const saveBtn = document.getElementById('saveNoteBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+            const title = document.getElementById('noteTitle').value;
+            const content = document.getElementById('noteContent').value;
+
+            createNote(title, content);
+
+            // Clear inputs after save
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteContent').value = '';
+        });
+    }
+
+    // Logout button
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('isAuthenticated');
+            window.location.href = 'login.html';
+        });
+    }
+});

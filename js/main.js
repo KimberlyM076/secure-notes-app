@@ -1,3 +1,5 @@
+import { renderNotes } from './notes.js';
+
 if (!sessionStorage.getItem("isAuthenticated")) {
     window.location.href = "index.html";
 }
