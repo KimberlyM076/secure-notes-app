@@ -29,7 +29,7 @@
 
 
 <main class="page">
-<section class="login-card">
+<section class="forms-card">
  
   <!-- SIGNUP SECTION -->
   <div id="signup-section">
@@ -42,19 +42,23 @@
       <button id="createAccountBtn" type="button">Create Account</button>
       <p id="signupMessage"></p>
 
-      <p>Already have a password? <a href="#" id="showLogin">Go to login</a></p>
+      <p class="switch-link">Already have a password? <a href="#" id="showLoginLink">Login</a></p>
 
   </div>
  
   <!-- LOGIN SECTION -->
-  <div id="login-section">
+  <div id="login-section" class="auth-card">
     <h1>Login</h1>
  
-    <input type="password" id="loginPassword" placeholder="Enter password">
-<button id="loginBtn" type="button">Login</button>
-<p class="switch-link">Already have an account? <a href="login.html">Login</a></p>
-<p id="loginMessage"></p>
-</div>
+    <form id="loginForm">
+      <p class="subtitle">Enter your password to access your notes.</p>
+        <input type="password" id="loginPassword" placeholder="Enter password">
+        <button id="loginBtn" type="button">Login</button>
+    </form>
+
+    <p>Don't have a password? <a href="#" id="showSignupLink">Create one</a></p>
+    
+  </div>
  
 </section>
 </main>

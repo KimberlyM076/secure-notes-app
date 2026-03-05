@@ -7,6 +7,7 @@ function initAuth() {
 
     const createAccountBtn = document.getElementById('createAccountBtn');
     const loginBtn = document.getElementById('login-btn');
+    const showLoginLink = document.getElementById("showLoginLink");
 
 
     const storedHash = localStorage.getItem('passwordHash');
@@ -20,6 +21,16 @@ function initAuth() {
         loginSection.style.display = 'none';
     }
 
+    if (showLoginLink) {
+        showLoginLink.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        document.getElementById("signup-section").style.display = "none";
+        document.getElementById("login-section").style.display = "block";
+        });
+    }
+
+
     //Attaching listeners safely after DOM is loaded
     if (createAccountBtn) {
         createAccountBtn.addEventListener('click', handleSignup);
@@ -28,7 +39,33 @@ function initAuth() {
     if (loginBtn) {
         loginBtn.addEventListener('click', handleLogin);
     }
+
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+    loginForm.addEventListener('submit', function (e) {
+        e.preventDefault(); //stops page refresh on form submit
+        handleLogin();
+    });
 }
+    const savedPassword = localStorage.getItem("lotusPassword");
+
+    if (!savedPassword) {
+      alert("No account found. Please create one first.");
+      return;
+    }
+
+    if (enteredPassword === savedPassword) {
+
+      // Set session
+      localStorage.setItem("isLoggedIn", "true");
+
+      // Redirect to notes page
+      window.location.href = "notes.html";
+
+    } else {
+      alert("Incorrect password.");
+    }
+  }
 
 //Password hashing using Web Crypto API
 async function hashPassword(password) {

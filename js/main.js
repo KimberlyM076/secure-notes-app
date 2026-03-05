@@ -34,6 +34,7 @@ function handleAuth() {
     else {
         const hashedInput = hashPassword(passwordInput.value);
         if (hashedInput === storedPassword) {
+            sessionStorage.setItem("isAuthenticated", "true");
             window.location.href = 'notes.html';
         } else {
             errorMessage.textContent = 'Incorrect password. Please try again.';
@@ -41,8 +42,6 @@ function handleAuth() {
     }
 }
 
-//For testing
-    console.log("Notes page loaded");
 
 let logoutTimer;
 
