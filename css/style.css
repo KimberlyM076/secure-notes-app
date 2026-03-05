@@ -7,7 +7,8 @@
   --accent: #D4A373;
 }
 
-/* Reset basic spacing */
+/* Reset */
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -15,186 +16,171 @@ body {
   min-height: 100vh;
 }
 
-/* Center login section vertically and horizontally */
-#login-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 70vh;
-}
 
-.login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  background: var(--sand);
-  padding: 32px 24px;
-  border-radius: 16px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-}
-}
+/* Header */
 
-/* Header (logo centered + fade from white to green) */
 header {
-  position: absolute;
+
+  position: fixed;
   top: 0;
+
   width: 100%;
-  padding: 40px 30px;
+
+  padding: 30px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   background: linear-gradient(to bottom, white 40%, var(--green1));
+
 }
 
-/* Logo container spacing */
-.logo-container {
-  margin-bottom: 10px;
-}
 
-/* Logo bigger */
 .logo {
-  width: 270px;
-  height: auto;
+  width: 250px;
 }
+
 
 /* Navigation */
+
 .nav-links ul {
+
   list-style: none;
+
   display: flex;
+
   gap: 30px;
+
   padding: 0;
-  margin: 10px 0 0 0;
+
+  margin-top: 10px;
+
 }
 
 .nav-links a {
+
   text-decoration: none;
+
   color: #333;
+
   font-weight: bold;
+
 }
 
-/* Title */
-h1 {
-  text-align: center;
-  margin-top: 220px; /* more space because header is taller now */
-  font-size: 32px;
+
+
+/* Page container */
+
+.page {
+
+  width: 100%;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding-top: 220px;
+
 }
 
-/* Login card */
-#login-section {
+
+/* Login Card */
+
+.login-card {
+
   background: var(--sand);
-  padding: 30px;
-  border-radius: 12px;
-  width: 320px;
-  margin: 20px auto;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+
+  padding: 35px;
+
+  width: 340px;
+
+  border-radius: 14px;
+
   text-align: center;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
 }
 
-/* Input */
-input {
-  width: 100%;
+
+.login-card h1 {
+
+  margin-bottom: 8px;
+
+}
+
+
+.subtitle {
+
+  margin-bottom: 20px;
+
+  color: #555;
+
+}
+
+
+
+/* Login Form */
+
+#login-section {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+}
+
+
+#passwordInput {
+
   padding: 12px;
-  margin-bottom: 15px;
+
   border-radius: 8px;
+
   border: 1px solid #ccc;
+
   font-size: 14px;
+
 }
 
-/* Button */
+
 button {
-  width: 100%;
+
   padding: 12px;
-  background: var(--accent);
-  border: none;
+
   border-radius: 8px;
+
+  border: none;
+
+  background: var(--accent);
+
   color: white;
+
   font-size: 16px;
+
   cursor: pointer;
+
 }
+
 
 button:hover {
+
   opacity: 0.9;
+
 }
 
-/* Error text */
+
+/* Error message */
+
 #errorMessage {
+
   color: red;
-  margin-top: 10px;
-}
-.notes-container{
-display: flex;
-gap: 20px;
-flex-wrap: wrap;
-justify-content: center;
-margin-top: 20px;
-}
 
-.note-card{
-background: var(--sand);
-padding: 20px;
-border-radius: 12px;
-width: 220px;
-box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-text-align: center;
-}
+  font-size: 13px;
 
-.note-card button{
-margin-top: 10px;
-}
-/* --- Notes page tidy layout --- */
-.page-title{
-  text-align:center;
-  margin-top: 220px;
-  font-size: 32px;
-}
-
-/* keep your centered vibe but make controls tidy */
-.top-controls{
-  width: min(1100px, 92vw);
-  margin: 18px auto 10px;
-
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 160px;
-  grid-template-rows: auto auto 1fr;
-  gap: 18px;
-
-  align-items: start;
-}
-
-/* Search stays top-left */
-.search-input{
-  grid-column: 1;
-  grid-row: 1;
-  width: 100%;
-  max-width: 420px;
-  justify-self: start;
-}
-
-/* New note card moves UNDER the search bar with spacing */
-.note-editor{
-  grid-column: 2;
-  grid-row: 2;              /* pushes it down */
-  margin-top: 10px;
-
-  width: 360px;             /* makes it bigger */
-  padding: 20px;
-  border-radius: 14px;
-}
-
-/* Bigger textarea so it feels like a real note card */
-#noteContent{
-  min-height: 140px;
-  resize: vertical;
-}
-
-/* Logout button goes bottom-right */
-.logout-btn{
-  grid-column: 3;
-  grid-row: 3;
-  align-self: end;
-  justify-self: end;
-
-  width: 130px;
-  height: 44px;
 }
