@@ -1,5 +1,15 @@
 import {getNotes, saveNotes} from './storage.js';
 
+document.addEventListener('DOMContentLoaded', () => {
+
+    const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+
+    if (!isAuthenticated) {
+        window.location.href = 'index.html';
+    }
+
+});
+
 // CRUD operations for notes
 
 // Creating a new note

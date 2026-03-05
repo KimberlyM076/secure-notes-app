@@ -19,24 +19,27 @@
       </ul>
     </nav>
   </header>
+
 <main class="page">
+  <section class="notes-card">
   
 <!-- Search bar -->
-<input type="text" id="searchInput" placeholder="Search notes..." />
+    <input type="text" id="searchInput" placeholder="Search notes..." />
 
   <!-- Note Creation Form -->
-  <div class="note-editor">
-    <input id="noteTitle" type="text" placeholder="Note title" required />
-    <textarea id="noteContent" placeholder="Write your note..." required></textarea>
-    <button id="saveNoteBtn" type="button">Save Note</button>
-  </div>  
+      <div class="note-editor">
+        <input id="noteTitle" type="text" placeholder="Note title" required />
+        <textarea id="noteContent" placeholder="Write your note..." required></textarea>
+        <button id="saveNoteBtn" type="button">Save Note</button>
+      </div>  
 
   <!-- Notes Display Area -->
-  <div id="notesContainer" class="notes-container"></div>
+      <div id="notesContainer" class="notes-container"></div>
 
   <!-- Logout Button -->
-  <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+      <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
 
+  </section>
 </main>
 
 <script src="js/storage.js"></script>
