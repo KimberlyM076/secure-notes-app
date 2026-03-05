@@ -166,7 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoutBtn) {
         logoutBtn.addEventListener("click", () => {
             sessionStorage.removeItem("isAuthenticated");
-            localStorage.removeItem("isAuthenticated");
             window.location.href = "index.html?mode=login";
         });
     }

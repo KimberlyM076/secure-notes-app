@@ -3,11 +3,12 @@ document.addEventListener('DOMContentLoaded', initAuth);
 
 function initAuth() {
 
+    const rememberMe = localStorage.getItem("lotusRememberMe") === "true";
     // If already authenticated, go straight to notes
     const isAuthenticated = sessionStorage.getItem("isAuthenticated")
         || localStorage.getItem("isAuthenticated");
 
-    if (isAuthenticated) {
+    if (rememberMe === "true" && isAuthenticated) {
         window.location.href = "notes.html";
         return;
     }
@@ -155,15 +156,17 @@ async function handleLogin() {
 
     const hashedInput = await hashPassword(password);
 
+    const rememberMe = document.getElementById("rememberMe");
+
     if (hashedInput === storedHash) {
-        const rememberMe = document.getElementById("rememberMe");
 
         if (rememberMe && rememberMe.checked) {
-            localStorage.setItem("isAuthenticated", "true");
+            localStorage.setItem("lotusRememberMe", "true");
         } else {
-            sessionStorage.setItem("isAuthenticated", "true");
+            localStorage.removeItem("lotusRememberMe");
         }
 
-    window.location.href = "notes.html";
-}
+        sessionStorage.setItem("isAuthenticated", "true");
+        window.location.href = "notes.html";
+    }
 }
