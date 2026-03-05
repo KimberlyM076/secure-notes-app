@@ -13,9 +13,26 @@ body {
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, var(--green1), var(--cream));
   min-height: 100vh;
+}
+
+/* Center login section vertically and horizontally */
+#login-section {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 70vh;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background: var(--sand);
+  padding: 32px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
 }
 
 /* Header (logo centered + fade from white to green) */
