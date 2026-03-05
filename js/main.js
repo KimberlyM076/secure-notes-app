@@ -22,12 +22,12 @@ function handleAuth() {
         return;
     }
 
-    const storedPassword = localStorage.getItem('secureNotesPassword');
+    const storedPassword = localStorage.getItem('lotusNotesPassword');
 
 //First time USER sign-up
     if (!storedPassword) {
         const hashed = hashPassword(passwordInput.value);
-        localStorage.setItem('secureNotesPassword', hashed);
+        localStorage.setItem('lotusNotesPassword', hashed);
         alert('Password set successfully. You can now create and view your notes.');
         window.location.href = 'notes.html';
     }

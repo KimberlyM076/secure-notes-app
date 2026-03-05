@@ -1,156 +1,130 @@
-//Lotus Notes authentication
-document.addEventListener('DOMContentLoaded', initAuth);
+// Lotus Notes Authentication
+document.addEventListener("DOMContentLoaded", initAuth);
 
 function initAuth() {
 
-    const rememberMe = localStorage.getItem("lotusRememberMe") === "true";
-    // If already authenticated, go straight to notes
-    const isAuthenticated = sessionStorage.getItem("isAuthenticated")
-        || localStorage.getItem("isAuthenticated");
+    const signupSection = document.getElementById("signup-section");
+    const loginSection = document.getElementById("login-section");
 
-    if (rememberMe === "true" && isAuthenticated) {
-        window.location.href = "notes.html";
-        return;
-    }
-
-    const signupSection = document.getElementById('signup-section');
-    const loginSection = document.getElementById('login-section');
+    if (!signupSection || !loginSection) return;
 
     const params = new URLSearchParams(window.location.search);
     const mode = params.get("mode");
 
+    const storedHash = localStorage.getItem("lotusNotesPassword");
+
     const loginPassword = document.getElementById("loginPassword");
     if (loginPassword) loginPassword.value = "";
 
-    // STOP if we're not on the auth page
-    if (!signupSection || !loginSection) return;
-
-    const createAccountBtn = document.getElementById('createAccountBtn');
-    const loginBtn = document.getElementById('login-btn');
-    const showLoginLink = document.getElementById("showLoginLink");
-
-
-    const storedHash = localStorage.getItem('passwordHash');
-
-    //Visiblity logic based on URL param and existing account
-    if (mode === "login") {
+    // Decide which card to show
+    if (mode === "signup") {
+        signupSection.style.display = "block";
+        loginSection.style.display = "none";
+    } 
+    else if (mode === "login" || storedHash) {
         signupSection.style.display = "none";
         loginSection.style.display = "block";
-    } else if (storedHash) {
-        signupSection.style.display = "none";
-        loginSection.style.display = "block";
-    } else {
+    } 
+    else {
         signupSection.style.display = "block";
         loginSection.style.display = "none";
     }
 
+    // Switch from signup → login
+    const showLoginLink = document.getElementById("showLoginLink");
     if (showLoginLink) {
         showLoginLink.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        document.getElementById("signup-section").style.display = "none";
-        document.getElementById("login-section").style.display = "block";
+            e.preventDefault();
+            signupSection.style.display = "none";
+            loginSection.style.display = "block";
         });
     }
 
+    // Buttons
+    const createAccountBtn = document.getElementById("createAccountBtn");
+    const loginBtn = document.getElementById("loginBtn");
 
-    //Attaching listeners safely after DOM is loaded
     if (createAccountBtn) {
-        createAccountBtn.addEventListener('click', handleSignup);
+        createAccountBtn.addEventListener("click", handleSignup);
     }
 
     if (loginBtn) {
-        loginBtn.addEventListener('click', handleLogin);
+        loginBtn.addEventListener("click", handleLogin);
     }
 
-    const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', function (e) {
-            e.preventDefault(); //stops page refresh on form submit
+    // Allow Enter key login
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) {
+        loginForm.addEventListener("submit", function(e){
+            e.preventDefault();
             handleLogin();
         });
     }
-    const savedPassword = localStorage.getItem("lotusPassword");
+}
 
-    if (!savedPassword) {
-      alert("No account found. Please create one first.");
-      return;
-    }
 
-    if (enteredPassword === savedPassword) {
-
-      // Set session
-      localStorage.setItem("isLoggedIn", "true");
-
-      // Redirect to notes page
-      window.location.href = "notes.html";
-
-    } else {
-      alert("Incorrect password.");
-    }
-  }
-
-//Password hashing using Web Crypto API
+// Password hashing
 async function hashPassword(password) {
     const encoder = new TextEncoder();
     const data = encoder.encode(password);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-//signup logic
+
+// Signup
 async function handleSignup() {
-    const passwordInput = document.getElementById('signupPassword');
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    const message = document.getElementById('signupMessage');
+
+    const passwordInput = document.getElementById("signupPassword");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+    const message = document.getElementById("signupMessage");
 
     if (!passwordInput || !confirmPasswordInput || !message) return;
 
     const password = passwordInput.value.trim();
     const confirmPassword = confirmPasswordInput.value.trim();
 
+    if (!password || !confirmPassword) {
+        message.textContent = "Please fill in both fields";
+        return;
+    }
+
     if (password !== confirmPassword) {
-        message.textContent = 'Passwords do not match';
+        message.textContent = "Passwords do not match";
         return;
     }
 
     const hashedPassword = await hashPassword(password);
 
-    localStorage.setItem('lotusNotesPassword', hashedPassword);
-    sessionStorage.setItem('isAuthenticated', 'true');
-    message.textContent = 'Account created successfully';
+    localStorage.setItem("lotusNotesPassword", hashedPassword);
+    sessionStorage.setItem("isAuthenticated", "true");
 
-    window.location.href = 'notes.html';
+    window.location.href = "notes.html";
 }
 
-//login logic
+
+// Login
 async function handleLogin() {
 
-    async function handleLogin() {
-        console.log("Login function triggered");
+    console.log("Login clicked");
 
-        const passwordInput = document.getElementById('loginPassword');
-        const message = document.getElementById('loginMessage');
-
-    }
-
-    const passwordInput = document.getElementById('loginPassword');
-    const message = document.getElementById('loginMessage');
+    const passwordInput = document.getElementById("loginPassword");
+    const message = document.getElementById("loginMessage");
 
     if (!passwordInput || !message) return;
 
     const password = passwordInput.value.trim();
 
     if (!password) {
-        message.textContent = 'Please enter your password';
+        message.textContent = "Please enter your password";
         return;
     }
 
-    const storedHash = localStorage.getItem('lotusNotesPassword');
+    const storedHash = localStorage.getItem("lotusNotesPassword");
 
     if (!storedHash) {
-        message.textContent = 'No account found. Please create an account first.';
+        message.textContent = "No account found. Please create one first.";
         return;
     }
 
@@ -167,6 +141,10 @@ async function handleLogin() {
         }
 
         sessionStorage.setItem("isAuthenticated", "true");
+
         window.location.href = "notes.html";
+
+    } else {
+        message.textContent = "Incorrect password";
     }
 }
