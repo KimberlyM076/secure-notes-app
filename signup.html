@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lotus Notes | Sign Up</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="images/LotusNotes.png" alt="Lotus Notes Logo" class="logo" />
+    </div>
+
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="notes.html">Notes</a></li>
+        <li><a class="active" href="signup.html">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="login-card">
+      <h1 class="page-title">Create your password</h1>
+      <p class="subtitle">Set a password to protect your notes.</p>
+
+      <!-- REQUIRED IDs (for JS) -->
+      <div id="signup-section">
+        <input
+          type="password"
+          id="signupPassword"
+          placeholder="Create password"
+          autocomplete="new-password"
+        />
+
+        <input
+          type="password"
+          id="confirmPassword"
+          placeholder="Confirm password"
+          autocomplete="new-password"
+        />
+
+        <button id="signupBtn" type="button">Create Account</button>
+
+        <p id="signupMessage" class="form-message"></p>
+      </div>
+
+      <p class="small-link">
+        Already have a password? <a href="index.html">Go to login</a>
+      </p>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>
