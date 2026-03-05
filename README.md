@@ -14,12 +14,12 @@ Team Members and Roles:
 
 (DAY 2 tasks)
 Kim - Front End developer 
-(task is to build basic login page layout In (index.html) file: 
+task is to build basic login page layout In (index.html) file: 
 Add page title and add password input field
 Add login button
 Add simple heading like “Secure Notes App”
 
-Kim - JavaScript Developer (task is to confirm JS is connected)
+Del - JavaScript Developer (task is to confirm JS is connected)
 Link script.js to index.html (GitHub)
 Add: Open browser → check console → confirm it works
 
@@ -40,7 +40,7 @@ What is Multi-Factor Authentication?
 Why Browser Storage Isn’t Fully Secure
 No full paragraphs yet, just brief summary and of your understanding
  
-Del and Kim - Testing and Documentation
+Del - Testing and Documentation
 Create Word file and add:
 Project Title
 Team Names + Roles
@@ -53,10 +53,18 @@ Improvements
 Not too much writing please!!
  
 ## Task Progress
-- Project Manager - In Prgress
+- Project Manager - In Progress
 - Research & Security - In Progress
 - Front End - In Progress
 - JavaScript - In Progress
 - UI - In Progress
 - Testing & Documentation - In Progress
 
+### The js folder structure and their purpose:
+- js/
+    - 
+auth.js -> Auth and password hashing
+notes.js -> Create, read, update, delete notes
+storage.js -> LocalStorage management
+crypto.js -> Future encryption functions
+main.js -> Session management and page initialization
