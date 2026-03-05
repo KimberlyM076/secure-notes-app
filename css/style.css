@@ -283,9 +283,6 @@ header {
     text-align: right;
   }
 
-  /* Make layout stack on mobile */
-@media (max-width: 768px) {
-
   .notes-layout {
     flex-direction: column;
   }
@@ -303,5 +300,6 @@ header {
   .notes-container {
     width: 100%;
   }
-}
+
+  /* Make layout stack on mobile */
 }
