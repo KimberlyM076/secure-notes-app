@@ -4,8 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Lotus Notes</title>
+<title>Lotus Notes | Login</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -22,47 +21,44 @@
 <nav class="nav-links">
 <ul>
 <li><a href="index.html">Home</a></li>
+<li><a href="login.html">Login</a></li>
 <li><a href="notes.html">Notes</a></li>
-<li><a href="signup.html">Sign Up</a></li>
 </ul>
 </nav>
 
 </header>
 
-
 <main class="page">
-<section class="signup-card">
 
-<h1>Create your password</h1>
+<section class="login-card">
 
-<p class="subtitle">Set a password to protect your notes.</p>
+<h1>Login</h1>
+<p class="subtitle">Enter your password to continue.</p>
 
-<div id="signup-section">
-
-<input
-type="password"
-id="signupPassword"
-placeholder="Create password"
-/>
+<div id="login-section">
 
 <input
 type="password"
-id="confirmPassword"
-placeholder="Confirm password"
+id="passwordInput"
+placeholder="Enter password"
 />
 
-<button id="createAccountBtn">Create Account</button>
+<button id="authButton">Continue</button>
 
-<p id="signupMessage"></p>
+<p id="errorMessage"></p>
 
 </div>
 
-<p>Already have a password? <a href="login.html">Go to login</a></p>
+<p>
+Forgot your password?
+<a href="#" id="resetPassword">Reset password</a>
+</p>
+
 </section>
 
 </main>
 
 <script src="js/auth.js"></script>
-</body>
 
+</body>
 </html>
