@@ -5,6 +5,15 @@ function initAuth() {
     const signupSection = document.getElementById('signup-section');
     const loginSection = document.getElementById('login-section');
 
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get("mode");
+
+    const loginPassword = document.getElementById("loginPassword");
+    if (loginPassword) loginPassword.value = "";
+
+    // STOP if we're not on the auth page
+    if (!signupSection || !loginSection) return;
+
     const createAccountBtn = document.getElementById('createAccountBtn');
     const loginBtn = document.getElementById('login-btn');
     const showLoginLink = document.getElementById("showLoginLink");
@@ -12,13 +21,16 @@ function initAuth() {
 
     const storedHash = localStorage.getItem('passwordHash');
 
-    //Show correct section based on whether a password hash exists
-    if (storedHash) {
-        signupSection.style.display = 'none';
-        loginSection.style.display = 'block';
+    //Visiblity logic based on URL param and existing account
+    if (mode === "login") {
+        signupSection.style.display = "none";
+        loginSection.style.display = "block";
+    } else if (storedHash) {
+        signupSection.style.display = "none";
+        loginSection.style.display = "block";
     } else {
-        signupSection.style.display = 'block';
-        loginSection.style.display = 'none';
+        signupSection.style.display = "block";
+        loginSection.style.display = "none";
     }
 
     if (showLoginLink) {
@@ -40,13 +52,13 @@ function initAuth() {
         loginBtn.addEventListener('click', handleLogin);
     }
 
-const loginForm = document.getElementById('loginForm');
-if (loginForm) {
-    loginForm.addEventListener('submit', function (e) {
-        e.preventDefault(); //stops page refresh on form submit
-        handleLogin();
-    });
-}
+    const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function (e) {
+            e.preventDefault(); //stops page refresh on form submit
+            handleLogin();
+        });
+    }
     const savedPassword = localStorage.getItem("lotusPassword");
 
     if (!savedPassword) {
