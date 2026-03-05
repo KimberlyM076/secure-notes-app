@@ -1,27 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lotus Notes</title>
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <script>
-        if (!sessionStorage.getItem("isAuthenticated")) {
-            window.location.href = "index.html";
-        }
+<header>
+    <div class="logo-container">
+      <img src="images/LotusNotes.png" alt="Lotus Notes Logo" class="logo" />
+    </div>
 
-        document.getElementById("logoutBtn").addEventListener("click", () => {
-        sessionStorage.removeItem("isAuthenticated");
-            window.location.href = "index.html";
-        });
-    </script>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="notes.html">Notes</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <button id="logoutBtn">Logout</button>
-<!-- For testing-->
-    console.log("Notes page loaded");
+<h1>My Notes</h1>
 
+  <!-- Note Creation Form -->
+  <div class="note-editor">
+    <input id="noteTitle" type="text" placeholder="Note title" required />
+    <textarea id="noteContent" placeholder="Write your note..." required></textarea>
+    <button id="saveNoteBtn" type="button">Save Note</button>
+  </div>
+
+  <!--Search functionality area-->
+  <input type="text" id="searchInput" placeholder="Search notes..." />
+
+  <!-- Notes Display Area -->
+  <div id="notesContainer" class="notes-container"></div>
+
+  <!-- Logout Button -->
+  <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+
+
+
+<script src="js/storage.js"></script>
+<script src="js/notes.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

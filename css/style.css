@@ -1,1 +1,107 @@
+/* Color palette */
+:root {
+  --green1: #CCD5AE;
+  --green2: #E9EDC9;
+  --cream: #FEFAE0;
+  --sand: #FAEDCD;
+  --accent: #D4A373;
+}
 
+/* Reset basic spacing */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, var(--green1), var(--cream));
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Header (logo centered + fade from white to green) */
+header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to bottom, white 40%, var(--green1));
+}
+
+/* Logo container spacing */
+.logo-container {
+  margin-bottom: 10px;
+}
+
+/* Logo bigger */
+.logo {
+  width: 270px;
+  height: auto;
+}
+
+/* Navigation */
+.nav-links ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Title */
+h1 {
+  text-align: center;
+  margin-top: 220px; /* more space because header is taller now */
+  font-size: 32px;
+}
+
+/* Login card */
+#login-section {
+  background: var(--sand);
+  padding: 30px;
+  border-radius: 12px;
+  width: 320px;
+  margin: 20px auto;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+/* Input */
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Error text */
+#errorMessage {
+  color: red;
+  margin-top: 10px;
+}
