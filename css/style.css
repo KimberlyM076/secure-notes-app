@@ -51,10 +51,13 @@ header {
   font-weight: 600;
   font-size: 1.05rem;
   transition: 0.3s ease;
+  padding: 8px 15px;
+  border-radius: 10px;
 }
 
 .nav-links a:hover {
-  color: #D4A373;
+  color: #FAEDCD;
+  background-color: #D4A373;
 }
 
 /* =========================
@@ -144,11 +147,16 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* space between checkbox and text */
+  gap: 1px; /* space between checkbox and text */
+  
 
-  margin-top: 10px;
+  width: 35%;
+  margin: 10px auto 0;
   font-size: 14px;
+  margin-top: 10px;
   cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
 }
 
 /* =========================
@@ -310,6 +318,11 @@ header {
 
   .notes-container {
     width: 100%;
+  }
+
+  .remember-me {
+    width: 100%;
+    justify-content: center;
   }
 
   /* Make layout stack on mobile */
