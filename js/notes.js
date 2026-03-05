@@ -81,6 +81,12 @@ function renderNotes() {
     const notes = getNotes();
     const container = document.getElementById('notesContainer');
 
+    //if no notes, show message: no notes yet
+    if (notes.length === 0) {
+    container.textContent = "No notes yet.";
+    return;
+    }
+    
     if (!container) {        
 //For testing - this should never happen if HTML is correct
         console.log("Rendering notes...");

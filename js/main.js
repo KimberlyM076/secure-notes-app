@@ -2,6 +2,11 @@ if (!sessionStorage.getItem("isAuthenticated")) {
     window.location.href = "index.html";
 }
 
+document.getElementById("logoutBtn").addEventListener("click", () => {
+        sessionStorage.removeItem("isAuthenticated");
+            window.location.href = "index.html";
+        });
+
 function hashPassword(password) {
     return btoa(password);
 }
@@ -35,6 +40,9 @@ function handleAuth() {
         }
     }
 }
+
+//For testing
+    console.log("Notes page loaded");
 
 let logoutTimer;
 
