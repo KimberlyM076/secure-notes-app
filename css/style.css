@@ -21,8 +21,7 @@ body {
 
 header {
 
-  position: fixed;
-  top: 0;
+  position: relative;
 
   width: 100%;
 
@@ -82,7 +81,7 @@ header {
 
   align-items: center;
 
-  padding-top: 220px;
+  padding-top: 65px;
 
 }
 
