@@ -31,23 +31,33 @@
 
 
 <main class="page">
-
 <section class="login-card">
 
-<p class="subtitle">Enter your password to continue</p>
+<h1>Create your password</h1>
 
-<div id="login-section">
+<p class="subtitle">Set a password to protect your notes.</p>
+
+<div id="signup-section">
 
 <input
 type="password"
-id="passwordInput"
-placeholder="Enter password"
+id="signupPassword"
+placeholder="Create password"
 />
-<button id="authButton">Continue</button>
 
-<p id="errorMessage"></p>
+<input
+type="password"
+id="confirmPassword"
+placeholder="Confirm password"
+/>
+
+<button id="createAccountBtn">Create Account</button>
+
+<p id="signupMessage"></p>
+
 </div>
 
+<p>Already have a password? <a href="notes.html">Go to login</a></p>
 </section>
 
 </main>
