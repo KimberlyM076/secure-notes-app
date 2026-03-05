@@ -99,7 +99,83 @@ header {
   color: #555;
 
 }
+/* Reusable card styling (works for signup + login) */
+.login-card {
+  background: var(--sand);
+  padding: 36px;
+  border-radius: 16px;
+  width: min(520px, 92vw);
+  margin: 24px auto;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+  text-align: center;
+}
 
+/* Titles/subtitles inside cards */
+.login-card h1 {
+  margin: 0 0 10px 0;
+  font-size: 34px;
+}
+
+.login-card .subtitle {
+  margin: 0 0 22px 0;
+  color: #444;
+}
+
+/* Signup + login sections should stack nicely */
+#signup-section,
+#login-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+/* Inputs inside cards */
+#signup-section input,
+#login-section input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #cfcfcf;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Buttons inside cards */
+#createAccountBtn,
+#authButton,
+#loginBtn {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#createAccountBtn:hover,
+#authButton:hover,
+#loginBtn:hover {
+  opacity: 0.92;
+}
+
+/* Small link under cards */
+.switch-link {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.switch-link a {
+  color: #5a3d1e;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.switch-link a:hover {
+  text-decoration: underline;
+}
 
 
 /* Login Form */
