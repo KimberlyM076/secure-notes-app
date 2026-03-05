@@ -22,15 +22,11 @@ body {
 header {
 
   position: relative;
-
   width: 100%;
-
   padding: 30px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   background: linear-gradient(to bottom, white 40%, var(--green1));
 
 }
@@ -46,13 +42,9 @@ header {
 .nav-links ul {
 
   list-style: none;
-
   display: flex;
-
   gap: 30px;
-
   padding: 0;
-
   margin-top: 10px;
 
 }
@@ -60,9 +52,7 @@ header {
 .nav-links a {
 
   text-decoration: none;
-
   color: #333;
-
   font-weight: bold;
 
 }
@@ -74,13 +64,9 @@ header {
 .page {
 
   width: 100%;
-
   display: flex;
-
   justify-content: center;
-
   align-items: center;
-
   padding-top: 65px;
 
 }
@@ -91,15 +77,10 @@ header {
 .login-card {
 
   background: var(--sand);
-
   padding: 35px;
-
   width: 340px;
-
   border-radius: 14px;
-
   text-align: center;
-
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 
 }
@@ -115,7 +96,6 @@ header {
 .subtitle {
 
   margin-bottom: 20px;
-
   color: #555;
 
 }
@@ -125,11 +105,8 @@ header {
 /* Login Form */
 
 #login-section {
-
   display: flex;
-
   flex-direction: column;
-
   gap: 12px;
 
 }
@@ -138,11 +115,8 @@ header {
 #passwordInput {
 
   padding: 12px;
-
   border-radius: 8px;
-
   border: 1px solid #ccc;
-
   font-size: 14px;
 
 }
@@ -151,26 +125,18 @@ header {
 button {
 
   padding: 12px;
-
   border-radius: 8px;
-
   border: none;
-
   background: var(--accent);
-
   color: white;
-
   font-size: 16px;
-
   cursor: pointer;
 
 }
 
 
 button:hover {
-
   opacity: 0.9;
-
 }
 
 
@@ -179,10 +145,10 @@ button:hover {
 #errorMessage {
 
   color: red;
-
   font-size: 13px;
 
 }
+
 /* Signup / form helpers */
 .page-title {
   margin: 0 0 8px 0;
