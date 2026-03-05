@@ -31,19 +31,28 @@
 
 
 <main class="page">
-<section class="signup-card">
-
-<h1>Create your password</h1>
-
-<p class="subtitle">Set a password to protect your notes.</p>
-
+<section class="login-card">
+ 
+  <!-- SIGNUP SECTION -->
 <div id="signup-section">
-  <input type="password" id="signupPassword" placeholder="Create password" autocomplete="new-password"/>
-  <input type="password" id="confirmPassword" placeholder="Confirm password" autocomplete="new-password"/>
-  <button id="createAccountBtn">Create Account</button>
+<h1>Create your password</h1>
+<p class="subtitle">Set a password to protect your notes.</p>
+ 
+    <input type="password" id="signupPassword" placeholder="Create password">
+<input type="password" id="confirmPassword" placeholder="Confirm password">
+<button id="createAccountBtn" type="button">Create Account</button>
+<p id="signupMessage"></p>
 </div>
-
-<p>Already have a password? <a href="#" id="showLogin">Go to login</a></p>
+ 
+  <!-- LOGIN SECTION -->
+<div id="login-section">
+<h1>Login</h1>
+ 
+    <input type="password" id="loginPassword" placeholder="Enter password">
+<button id="loginBtn" type="button">Login</button>
+<p id="loginMessage"></p>
+</div>
+ 
 </section>
 
 </main>
