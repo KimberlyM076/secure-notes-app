@@ -1,9 +1,36 @@
-const passwordInput = document.getElementById('passwordInput');
-const authButton = document.getElementById('authButton');
-const errorMessage = document.getElementById('errorMessage');
+//Lotus Notes authentication
+document.addEventListener('DOMContentLoaded', initAuth);
 
-authButton.addEventListener('click', handleAuth);
+function initAuth() {
+    const signupSection = document.getElementById('signup-section');
+    const loginSection = document.getElementById('login-section');
 
+    const createAccountBtn = document.getElementById('createAccountBtn');
+    const loginBtn = document.getElementById('login-btn');
+
+
+    const storedHash = localStorage.getItem('passwordHash');
+
+    //Show correct section based on whether a password hash exists
+    if (storedHash) {
+        signupSection.style.display = 'none';
+        loginSection.style.display = 'block';
+    } else {
+        signupSection.style.display = 'block';
+        loginSection.style.display = 'none';
+    }
+
+    //Attaching listeners safely after DOM is loaded
+    if (createAccountBtn) {
+        createAccountBtn.addEventListener('click', handleSignup);
+    }
+
+    if (loginBtn) {
+        loginBtn.addEventListener('click', handleLogin);
+    }
+}
+
+//Password hashing using Web Crypto API
 async function hashPassword(password) {
     const encoder = new TextEncoder();
     const data = encoder.encode(password);
@@ -12,31 +39,58 @@ async function hashPassword(password) {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-async function handleAuth() {
-    const password = passwordInput.value;
+//signup logic
+async function handleSignup() {
+    const passwordInput = document.getElementById('signupPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const message = document.getElementById('signupMessage');
 
-    if (!password) {
-        errorMessage.textContent = 'Password cannot be left empty.';
+    if (!passwordInput || !confirmPasswordInput || !message) return;
+
+    const password = passwordInput.value.trim();
+    const confirmPassword = confirmPasswordInput.value.trim();
+
+    if (password !== confirmPassword) {
+        message.textContent = 'Passwords do not match';
         return;
     }
 
-    const storedHash = localStorage.getItem('secureNotesPassword');
+    const hashedPassword = await hashPassword(password);
+
+    localStorage.setItem('lotusNotesPassword', hashedPassword);
+    sessionStorage.setItem('isAuthenticated', 'true');
+    message.textContent = 'Account created successfully';
+
+    window.location.href = 'notes.html';
+}
+
+//login logic
+async function handleLogin() {
+    const passwordInput = document.getElementById('loginPassword');
+    const message = document.getElementById('loginMessage');
+
+    if (!passwordInput || !message) return;
+
+    const password = passwordInput.value.trim();
+
+    if (!password) {
+        message.textContent = 'Please enter your password';
+        return;
+    }
+
+    const storedHash = localStorage.getItem('lotusNotesPassword');
+
+    if (!storedHash) {
+        message.textContent = 'No account found. Please create an account first.';
+        return;
+    }
+
     const hashedInput = await hashPassword(password);
 
-    //First time user, set the password
-    if (!storedHash) {
-        localStorage.setItem('secureNotesPassword', hashedInput);
+    if (hashedInput === storedHash) {
         sessionStorage.setItem('isAuthenticated', 'true');
-        window.location.href = 'notes.html';
-        errorMessage.textContent = 'Password set successfully. You can now access your notes.';
-    }
-    //Existing user, check the password
-    else if (hashedInput === storedHash) {
-        sessionStorage.setItem('isAuthenticated', 'true');
-        alert('Login successful! Redirecting to your notes...');
         window.location.href = 'notes.html';
     } else {
-        errorMessage.textContent = 'Incorrect password. Please try again.';
+        message.textContent = 'Invalid password';
     }
 }
-    
