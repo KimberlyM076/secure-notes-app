@@ -82,6 +82,9 @@ function renderNotes() {
     const container = document.getElementById('notesContainer');
 
     if (!container) {        
+//For testing - this should never happen if HTML is correct
+        console.log("Rendering notes...");
+
         return; //prevents crash if HTML is not ready yet
     }
 
