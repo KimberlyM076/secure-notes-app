@@ -175,6 +175,14 @@ header {
    NOTES PAGE (future-ready)
 ========================= */
 
+.note-editor {
+  margin-bottom: 2rem;
+}
+
+.notes-container {
+  margin-top: 1rem;
+}
+
 .notes-container {
   display: grid;
   gap: 20px;
