@@ -2,6 +2,16 @@
 document.addEventListener('DOMContentLoaded', initAuth);
 
 function initAuth() {
+
+    // If already authenticated, go straight to notes
+    const isAuthenticated = sessionStorage.getItem("isAuthenticated")
+        || localStorage.getItem("isAuthenticated");
+
+    if (isAuthenticated) {
+        window.location.href = "notes.html";
+        return;
+    }
+
     const signupSection = document.getElementById('signup-section');
     const loginSection = document.getElementById('login-section');
 
@@ -117,12 +127,12 @@ async function handleSignup() {
 async function handleLogin() {
 
     async function handleLogin() {
-    console.log("Login function triggered");
+        console.log("Login function triggered");
 
-    const passwordInput = document.getElementById('loginPassword');
-    const message = document.getElementById('loginMessage');
+        const passwordInput = document.getElementById('loginPassword');
+        const message = document.getElementById('loginMessage');
 
-}
+    }
 
     const passwordInput = document.getElementById('loginPassword');
     const message = document.getElementById('loginMessage');
@@ -146,9 +156,14 @@ async function handleLogin() {
     const hashedInput = await hashPassword(password);
 
     if (hashedInput === storedHash) {
-        sessionStorage.setItem('isAuthenticated', 'true');
-        window.location.href = 'notes.html';
-    } else {
-        message.textContent = 'Invalid password';
-    }
+        const rememberMe = document.getElementById("rememberMe");
+
+        if (rememberMe && rememberMe.checked) {
+            localStorage.setItem("isAuthenticated", "true");
+        } else {
+            sessionStorage.setItem("isAuthenticated", "true");
+        }
+
+    window.location.href = "notes.html";
+}
 }

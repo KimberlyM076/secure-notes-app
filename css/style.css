@@ -272,4 +272,36 @@ header {
   .nav-links ul {
     gap: 20px;
   }
+
+  .remember-me {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+  }
+
+  label[for="rememberMe"] {
+    text-align: right;
+  }
+
+  /* Make layout stack on mobile */
+@media (max-width: 768px) {
+
+  .notes-layout {
+    flex-direction: column;
+  }
+
+  .auth-card {
+    margin: 20px;
+    padding: 25px;
+  }
+
+  .note-editor input,
+  .note-editor textarea {
+    font-size: 16px; /* Prevents zoom on iPhone */
+  }
+
+  .notes-container {
+    width: 100%;
+  }
+}
 }

@@ -2,10 +2,11 @@ import {getNotes, saveNotes} from './storage.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+    const isAuthenticated = sessionStorage.getItem("isAuthenticated")
+        || localStorage.getItem("isAuthenticated");
 
     if (!isAuthenticated) {
-        window.location.href = 'index.html';
+        window.location.href = "index.html";
     }
 
 });
@@ -165,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoutBtn) {
         logoutBtn.addEventListener("click", () => {
             sessionStorage.removeItem("isAuthenticated");
+            localStorage.removeItem("isAuthenticated");
             window.location.href = "index.html?mode=login";
         });
     }
