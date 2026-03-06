@@ -90,39 +90,44 @@ async function handleSignup() {
     const confirmPasswordInput = document.getElementById("confirmPassword");
     const message = document.getElementById("signupMessage");
 
-    if (!passwordInput || !confirmPasswordInput || !message) return;
-
     const password = passwordInput.value.trim();
     const confirmPassword = confirmPasswordInput.value.trim();
-
-    if (!password || !confirmPassword) {
-        message.textContent = "Please fill in both fields";
-        return;
-    }
 
     if (password !== confirmPassword) {
         message.textContent = "Passwords do not match";
         return;
     }
 
-    const hashedPassword = await hashPassword(password);
+    try {
 
-    localStorage.setItem("lotusNotesPassword", hashedPassword);
-    sessionStorage.setItem("isAuthenticated", "true");
+        const response = await fetch("http://localhost:5000/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ password })
+        });
 
-    window.location.href = "notes.html";
+        const data = await response.json();
+
+        if (data.success) {
+            sessionStorage.setItem("isAuthenticated", "true");
+            window.location.href = "notes.html";
+        } else {
+            message.textContent = "Signup failed";
+        }
+
+    } catch (error) {
+        message.textContent = "Server error";
+    }
 }
 
 
 // Login
 async function handleLogin() {
 
-    console.log("Login clicked");
-
     const passwordInput = document.getElementById("loginPassword");
     const message = document.getElementById("loginMessage");
-
-    if (!passwordInput || !message) return;
 
     const password = passwordInput.value.trim();
 
@@ -131,30 +136,29 @@ async function handleLogin() {
         return;
     }
 
-    const storedHash = localStorage.getItem("lotusNotesPassword");
+    try {
 
-    if (!storedHash) {
-        message.textContent = "No account found. Please create one first.";
-        return;
-    }
+        const response = await fetch("http://localhost:5000/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ password })
+        });
 
-    const hashedInput = await hashPassword(password);
+        const data = await response.json();
 
-    const rememberMe = document.getElementById("rememberMe");
+        if (data.success) {
 
-    if (hashedInput === storedHash) {
-
-        if (rememberMe && rememberMe.checked) {
-            localStorage.setItem("lotusRememberMe", "true");
-            localStorage.setItem("isAuthenticated", "true");
-        } else {
-            localStorage.removeItem("lotusRememberMe");
             sessionStorage.setItem("isAuthenticated", "true");
+
+            window.location.href = "notes.html";
+
+        } else {
+            message.textContent = "Incorrect password";
         }
 
-        window.location.href = "notes.html";
-
-    } else {
-        message.textContent = "Incorrect password";
+    } catch (error) {
+        message.textContent = "Server error";
     }
 }
