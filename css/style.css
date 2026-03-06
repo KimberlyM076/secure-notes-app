@@ -113,7 +113,9 @@ header {
   border: 1px solid #d8d8d8;
   font-size: 0.95rem;
   transition: border 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
+
 
 .forms-card input:focus {
   outline: none;
@@ -132,10 +134,11 @@ header {
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s ease;
+  box-sizing: border-box;
 }
 
 .forms-card button:hover {
@@ -204,16 +207,11 @@ header {
 
 .notes-container {
   display: grid;
-  gap: 20px;
+  gap: 15px;
   margin-top: 30px;
 }
 
-.note-card {
-  background: #FEFAE0;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-}
+
 
 /* =========================
    NOTES CARD
@@ -221,11 +219,13 @@ header {
 
 .notes-card {
   background-color: #FAEDCD;
-  padding: 40px;
+  padding: 30px;
   border-radius: 20px;
   width: 100%;
-  max-width: 800px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  max-width: 420px;
+  margin: 40px auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* Search */
@@ -235,6 +235,7 @@ header {
   margin-bottom: 25px;
   border-radius: 8px;
   border: 1px solid #d8d8d8;
+  box-sizing: border-box;
 }
 
 /* Note editor layout */
@@ -247,10 +248,12 @@ header {
 
 .note-editor input,
 .note-editor textarea {
+  width: 100%;
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #d8d8d8;
   font-size: 0.95rem;
+  box-sizing: border-box;
 }
 
 .note-editor textarea {
@@ -266,6 +269,7 @@ header {
 
 /* Logout button */
 .logout-btn {
+  width: auto;
   margin-top: 20px;
   background-color: #b23a3a;
   padding: 10px 18px;
@@ -273,6 +277,8 @@ header {
   color: white;
   border: none;
   cursor: pointer;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
 .logout-btn:hover {
@@ -307,18 +313,27 @@ header {
   }
 
   .auth-card {
-    margin: 20px;
-    padding: 25px;
+    width: 100%;
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   }
 
   .note-editor input,
   .note-editor textarea {
     font-size: 16px; /* Prevents zoom on iPhone */
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .notes-container {
     width: 100%;
+    display: grid;
+    gap: 15px;
   }
+  
 
   .remember-me {
     width: 100%;

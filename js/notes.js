@@ -161,12 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Logout button
-    const logoutBtn = document.getElementById("logoutBtn");
+    const logoutBtn = document.getElementById("logoutBtn").addEventListener("click", () => {
 
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", () => {
-            sessionStorage.removeItem("isAuthenticated");
-            window.location.href = "index.html?mode=login";
-        });
-    }
+        sessionStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("isAuthenticated");
+
+        window.location.href = "index.html?mode=login";
+    });
 });

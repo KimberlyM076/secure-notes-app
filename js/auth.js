@@ -3,6 +3,20 @@ document.addEventListener("DOMContentLoaded", initAuth);
 
 function initAuth() {
 
+    //The Remember me feature allows users to stay logged in across browser 
+    // sessions. When enabled, it stores a flag in localStorage to indicate 
+    // that the user should be remembered. On page load, the app checks this 
+    // flag along with the authentication status stored in sessionStorage. 
+    // If both indicate that the user should be remembered and is authenticated, 
+    // it automatically redirects them to the notes page without requiring them to log in again. This provides a seamless experience for users who prefer not to enter their password every time they visit the app, while still maintaining security by using sessionStorage for authentication status.
+    const rememberMe = localStorage.getItem("lotusRememberMe") === "true";
+    const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+
+    if (rememberMe && isAuthenticated) {
+        window.location.href = "notes.html";
+        return;
+    }
+
     const signupSection = document.getElementById("signup-section");
     const loginSection = document.getElementById("login-section");
 
@@ -17,17 +31,13 @@ function initAuth() {
     if (loginPassword) loginPassword.value = "";
 
     // Decide which card to show
-    if (mode === "signup") {
-        signupSection.style.display = "block";
-        loginSection.style.display = "none";
-    } 
-    else if (mode === "login" || storedHash) {
+    if (mode === "login") {
         signupSection.style.display = "none";
         loginSection.style.display = "block";
     } 
     else {
-        signupSection.style.display = "block";
-        loginSection.style.display = "none";
+    signupSection.style.display = "block";
+    loginSection.style.display = "none";
     }
 
     // Switch from signup → login
@@ -136,11 +146,11 @@ async function handleLogin() {
 
         if (rememberMe && rememberMe.checked) {
             localStorage.setItem("lotusRememberMe", "true");
+            localStorage.setItem("isAuthenticated", "true");
         } else {
             localStorage.removeItem("lotusRememberMe");
+            sessionStorage.setItem("isAuthenticated", "true");
         }
-
-        sessionStorage.setItem("isAuthenticated", "true");
 
         window.location.href = "notes.html";
 
