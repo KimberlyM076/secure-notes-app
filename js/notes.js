@@ -169,3 +169,71 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = "index.html?mode=login";
     });
 });
+
+// Search functionality
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const searchInput = document.getElementById("searchInput");
+
+    if (!searchInput) return;
+
+    searchInput.addEventListener("input", () => {
+
+        const query = searchInput.value.toLowerCase();
+        const notes = getNotes();
+
+        const filteredNotes = notes.filter(note =>
+            note.title.toLowerCase().includes(query) ||
+            note.content.toLowerCase().includes(query)
+        );
+
+        const container = document.getElementById("notesContainer");
+        container.innerHTML = "";
+
+        if (filteredNotes.length === 0) {
+            container.textContent = "No matching notes.";
+            return;
+        }
+
+        filteredNotes.forEach(note => {
+
+            const noteDiv = document.createElement("div");
+            noteDiv.classList.add("note");
+
+            const titleElement = document.createElement("h3");
+            titleElement.textContent = note.title;
+
+            const contentElement = document.createElement("p");
+            contentElement.textContent = note.content;
+
+            noteDiv.appendChild(titleElement);
+            noteDiv.appendChild(contentElement);
+
+            container.appendChild(noteDiv);
+        });
+
+    });
+
+});
+
+//Display notes in the frontend
+async function loadNotes() {
+    
+  const userId = localStorage.getItem("userId");
+
+  const res = await fetch(`http://localhost:5000/notes?userId=${userId}`);
+  const notes = await res.json();
+
+  const container = document.getElementById("notes-container");
+  container.innerHTML = "";
+
+  notes.forEach(note => {
+    const noteElement = document.createElement("div");
+    noteElement.className = "note";
+    noteElement.textContent = note.content;
+    container.appendChild(noteElement);
+  });
+}
+
+loadNotes();

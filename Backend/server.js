@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const User = require("./models/User");
+
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
@@ -96,3 +98,77 @@ app.post("/login", async (req, res) => {
   }
 
 });
+
+// Note schema for storing notes in the database
+const NoteSchema = new mongoose.Schema({
+  content: String,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+//Note model
+const Note = mongoose.model("Note", NoteSchema);
+const mongoose = require("mongoose");
+
+const noteSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
+
+  title: String,
+
+  content: String
+
+}, { timestamps: true });
+
+module.exports = mongoose.model("Note", noteSchema);
+
+// Save note to database
+app.post("/notes", async (req, res) => {
+
+  try {
+
+    const { title, content, userId } = req.body;
+
+    const note = new Note({
+      title,
+      content,
+      userId
+    });
+
+    await note.save();
+
+    res.json({ success: true });
+
+  } catch (error) {
+
+    res.status(500).json({ success: false });
+
+  }
+
+});
+
+//API route to get notes from the database
+app.get("/notes", async (req, res) => {
+
+  try {
+
+    const { userId } = req.query;
+
+    const notes = await Note.find({ userId }).sort({ createdAt: -1 });
+
+    res.json(notes);
+
+  } catch (error) {
+
+    res.status(500).json({ success: false });
+
+  }
+
+});
+
+

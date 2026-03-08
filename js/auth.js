@@ -152,6 +152,8 @@ async function handleLogin() {
 
             sessionStorage.setItem("isAuthenticated", "true");
 
+            localStorage.setItem("userId", data.userId);
+
             window.location.href = "notes.html";
 
         } else {
