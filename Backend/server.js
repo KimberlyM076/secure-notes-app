@@ -70,7 +70,6 @@ app.post("/signup", async (req, res) => {
 });
 
 // Login
-// Login
 app.post("/login", async (req, res) => {
 
   try {
@@ -163,4 +162,16 @@ app.get("/notes", async (req, res) => {
 
 });
 
+//Delete note from database
+app.delete("/notes/:noteId", async (req, res) => {
+  try {
+    const { noteId } = req.params;
 
+    await Note.findByIdAndDelete(noteId);
+    res.json({ success: true });
+
+  } catch (error) {
+    console.error("Delete note error:", error);
+    res.status(500).json({ success: false });
+  }
+});
