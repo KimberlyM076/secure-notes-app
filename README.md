@@ -99,7 +99,7 @@ Frontend fetches user-specific notes
 Clone the repository:
 
 ```
-git clone https://github.com/yourusername/lotus-notes-app.git
+git clone https://github.com/KimberlyM076/secure-notes-app.git
 ```
 
 Navigate to the project folder:
@@ -133,20 +133,38 @@ http://localhost:5000
 ```
 lotus-notes-app
 │
-├── models
-│   └── User.js
-|   └──Notes.js
-│
-├── public
-│   ├── index.html
-│   ├── notes.html
-│   ├── auth.js
-│   ├── notes.js
-│   └── styles.css
-│
-├── server.js
-├── package.json
-└── README.md
+├── Backend
+│   ├── models
+│   │   └── User.js
+│   │   └── Notes.js
+│   ├── node_modules
+│   ├── .env
+│   ├── .gitignore
+│   ├── server.js
+│   │── package.json
+│   └── package-lock.json
+│       
+├── css
+│   └── style.css
+|
+├── js
+│  ├── auth.js
+│  ├── notes.js
+|  ├── main.js
+|  ├── storage.js
+|  └── crypto.js
+|
+├── images (folder for all images used in the app)
+|
+├── index.html
+├── notes.html
+├── login.html
+├── manifest.json
+├── service-worker.js
+├── documentation.md
+├── Project Development Log.docx
+├── README.md
+
 ```
 
 ---
@@ -192,13 +210,41 @@ Planned improvements include:
 
 Example sections you can include:
 
-Login Page
-Notes Dashboard
-Creating a Note
-User Authentication Flow
+![Login Page](images/LoginPage.png)
+![Notes Dashboard](images/NotesDashboard.png)
+![Creating a Note](images/CreatingNote.png)
+The following User Authentication Flow illustrates how user authentication is handled in the application:
+Signup Flow:
+1. User submits signup form with email and password.
+2. Frontend sends POST request to /api/signup endpoint.
+3. Backend validates input and creates new user in MongoDB.
 
+Login Flow:
+1. User submits login form with email and password.
+2. Frontend sends POST request to /api/login endpoint.
+3. Backend validates credentials and establishes user session.
+
+ ┌─────────────┐
+ │   Browser   │
+ │  (Frontend) │
+ └──────┬──────┘
+        │ API Request
+        ▼
+ ┌─────────────┐
+ │ Express API │
+ │  Node.js    │
+ └──────┬──────┘
+        │ Database Query
+        ▼
+ ┌─────────────┐
+ │   MongoDB   │
+ │ Notes +     │
+ │ Users       │
+ └─────────────┘
 ---
 
-# Author
+# Author Kim
+
+# Author Delali
 
 Developed as part of a learning project to gain practical experience with full-stack JavaScript development and modern web technologies which was my main role in the project (Not the structuring i.e. HTML and styling i.e. CSS of the app).

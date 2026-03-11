@@ -1,183 +1,354 @@
-/* Color palette */
-:root {
-  --green1: #CCD5AE;
-  --green2: #E9EDC9;
-  --cream: #FEFAE0;
-  --sand: #FAEDCD;
-  --accent: #D4A373;
+/* =========================
+   GLOBAL RESET
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Reset basic spacing */
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, var(--green1), var(--cream));
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom, #CCD5AE, #E9EDC9);
+  color: #2f2f2f;
   min-height: 100vh;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+  text-align: center;
+  padding: 30px 20px 10px;
+}
+
+.logo-container {
+  margin-bottom: 15px;
+}
+
+.logo {
+  width: 200px;
+  max-width: 90%;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.nav-links ul {
   display: flex;
   justify-content: center;
-  align-items: center;
-}
-
-/* Header (logo centered + fade from white to green) */
-header {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  padding: 40px 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(to bottom, white 40%, var(--green1));
-}
-
-/* Logo container spacing */
-.logo-container {
-  margin-bottom: 10px;
-}
-
-/* Logo bigger */
-.logo {
-  width: 270px;
-  height: auto;
-}
-
-/* Navigation */
-.nav-links ul {
+  gap: 40px;
   list-style: none;
-  display: flex;
-  gap: 30px;
-  padding: 0;
-  margin: 10px 0 0 0;
+  padding: 15px 0;
 }
 
 .nav-links a {
   text-decoration: none;
-  color: #333;
-  font-weight: bold;
+  color: #2f2f2f;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: 0.3s ease;
+  padding: 8px 15px;
+  border-radius: 10px;
 }
 
-/* Title */
-h1 {
-  text-align: center;
-  margin-top: 220px; /* more space because header is taller now */
-  font-size: 32px;
+.nav-links a:hover {
+  color: #FAEDCD;
+  background-color: #D4A373;
 }
 
-/* Login card */
-#login-section {
-  background: var(--sand);
-  padding: 30px;
-  border-radius: 12px;
-  width: 320px;
-  margin: 20px auto;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  text-align: center;
+/* =========================
+   PAGE LAYOUT
+========================= */
+
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
 }
 
-/* Input */
-input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
+/* =========================
+   AUTH CARD
+========================= */
 
-/* Button */
-button {
-  width: 100%;
-  padding: 12px;
-  background: var(--accent);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-/* Error text */
-#errorMessage {
-  color: red;
-  margin-top: 10px;
-}
-.notes-container{
-display: flex;
-gap: 20px;
-flex-wrap: wrap;
-justify-content: center;
-margin-top: 20px;
-}
-
-.note-card{
-background: var(--sand);
-padding: 20px;
-border-radius: 12px;
-width: 220px;
-box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-text-align: center;
-}
-
-.note-card button{
-margin-top: 10px;
-}
-/* --- Notes page tidy layout --- */
-.page-title{
-  text-align:center;
-  margin-top: 220px;
-  font-size: 32px;
-}
-
-/* keep your centered vibe but make controls tidy */
-.top-controls{
-  width: min(1100px, 92vw);
-  margin: 18px auto 10px;
-
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 160px;
-  grid-template-rows: auto auto 1fr;
-  gap: 18px;
-
-  align-items: start;
-}
-
-/* Search stays top-left */
-.search-input{
-  grid-column: 1;
-  grid-row: 1;
+.forms-card {
+  background-color: #FAEDCD;
+  padding: 50px 40px;
+  border-radius: 20px;
   width: 100%;
   max-width: 420px;
-  justify-self: start;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
 }
 
-/* New note card moves UNDER the search bar with spacing */
-.note-editor{
-  grid-column: 2;
-  grid-row: 2;              /* pushes it down */
+.forms-card:hover {
+  transform: translateY(-3px);
+}
+
+.forms-card h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+}
+
+/* =========================
+   INPUT FIELDS
+========================= */
+
+.forms-card input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #d8d8d8;
+  font-size: 0.95rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+
+.forms-card input:focus {
+  outline: none;
+  border-color: #D4A373;
+  box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.2);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.forms-card button {
+  width: 100%;
+  padding: 12px;
+  background-color: #D4A373;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-sizing: border-box;
+}
+
+.forms-card button:hover {
+  background-color: #c48e5f;
+  transform: translateY(-1px);
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px; /* space between checkbox and text */
+  
+
+  width: 35%;
+  margin: 10px auto 0;
+  font-size: 14px;
   margin-top: 10px;
-
-  width: 360px;             /* makes it bigger */
-  padding: 20px;
-  border-radius: 14px;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
 }
 
-/* Bigger textarea so it feels like a real note card */
-#noteContent{
-  min-height: 140px;
+/* =========================
+   LINK TEXT
+========================= */
+
+.forms-card p {
+  margin-top: 18px;
+  font-size: 0.9rem;
+}
+
+.forms-card a {
+  color: #6b4f3b;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.forms-card a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   MESSAGE STYLING
+========================= */
+
+#signupMessage,
+#loginMessage {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #b23a3a;
+  min-height: 18px;
+}
+
+/* =========================
+   NOTES PAGE (future-ready)
+========================= */
+
+.note-editor {
+  margin-bottom: 2rem;
+}
+
+.notes-container {
+  margin-top: 1rem;
+}
+
+.notes-container {
+  display: grid;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+
+
+/* =========================
+   NOTES CARD
+========================= */
+
+.notes-card {
+  background-color: #FAEDCD;
+  padding: 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  margin: 40px auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Search */
+#searchInput {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  border: 1px solid #d8d8d8;
+  box-sizing: border-box;
+}
+
+/* Note editor layout */
+.note-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.note-editor input,
+.note-editor textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d8d8d8;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.note-editor textarea {
+  min-height: 120px;
   resize: vertical;
 }
 
-/* Logout button goes bottom-right */
-.logout-btn{
-  grid-column: 3;
-  grid-row: 3;
-  align-self: end;
-  justify-self: end;
+#saveNoteBtn {
+  align-self: flex-start;
+  width: auto;
+  padding: 10px 18px;
+  background-color: #6b4f3b;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
 
-  width: 130px;
-  height: 44px;
+#saveNoteBtn:hover {
+  background-color: #5a3e2f;
+}
+
+/* Logout button */
+.logout-btn {
+  width: auto;
+  margin-top: 20px;
+  background-color: #b23a3a;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.logout-btn:hover {
+  background-color: #992f2f;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 500px) {
+  .login-card {
+    padding: 40px 25px;
+  }
+
+  .nav-links ul {
+    gap: 20px;
+  }
+
+  .remember-me {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+  }
+
+  label[for="rememberMe"] {
+    text-align: right;
+  }
+
+  .notes-layout {
+    flex-direction: column;
+  }
+
+  .auth-card {
+    width: 100%;
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+
+  .note-editor input,
+  .note-editor textarea {
+    font-size: 16px; /* Prevents zoom on iPhone */
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .notes-container {
+    width: 100%;
+    display: grid;
+    gap: 15px;
+  }
+  
+
+  .remember-me {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Make layout stack on mobile */
+
 }

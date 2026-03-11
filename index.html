@@ -1,42 +1,91 @@
 <!DOCTYPE html>
-<html lang="en" lang="en">
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lotus Notes</title>
-  <link rel="stylesheet" href="css/style.css">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+<title>Lotus Notes</title>
+<link rel="apple-touch-icon" href="images/LotusNotes.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4CAF50">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
 <header>
 
-  <!-- Logo -->
-    <div class="logo-container">
-      <img src="images/LotusNotes.png" alt="Lotus Notes Logo" class="logo" />
-    </div>
+<div class="logo-container">
+  <img src="images/LotusNotes.png" alt="Lotus Notes Logo" class="logo">
+</div>
 
-    <!--Navigation-->
-    <nav class="nav-links">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="notes.html">Notes</a></li>
-      </ul>
-    </nav>
+<nav class="nav-links">
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="notes.html">Notes</a></li>
+
+</ul>
+</nav>
+
 </header>
-    <h1>Lotus Notes</h1>
 
-    <!-- Login Section -->
-    <div id="login-section">
-        <input type="password" id="passwordInput" placeholder="Enter password">
-        <button id="authButton">Login</button>
-        <p id="errorMessage"></p>
-    </div>
 
-    <script src="js/auth.js"></script>
-    <script>
-        document.getElementById('authButton').addEventListener('click', handleAuth);
-    </script>
+<main class="page">
+<section class="forms-card">
+ 
+  <!-- SIGNUP SECTION -->
+  <div id="signup-section">
+    <h1>Enter your Email and Create your password</h1>
+
+    <p class="subtitle">Set a password to protect your notes.</p>
+ 
+      <input type="email" id="signupEmail" placeholder="Enter your email">
+      <input type="password" id="signupPassword" placeholder="Create password">
+      <input type="password" id="confirmPassword" placeholder="Confirm password">
+      <button id="createAccountBtn" type="button">Create Account</button>
+      <p id="signupMessage"></p>
+
+      <p class="switch-link">Already have a password? <a href="#" id="showLoginLink">Login</a></p>
+
+  </div>
+ 
+  <!-- LOGIN SECTION -->
+  <div id="login-section" class="auth-card">
+    <h1>Welcome Back!</h1>
+    <h2>Login</h2><br>
+ 
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Enter your email">
+        <input type="password" id="loginPassword" placeholder="Enter password">
+
+        <button id="loginBtn" type="submit">Login</button><br><br>
+    </form>
+    
+    <p id="loginMessage" class="auth-message"></p>
+    
+  </div>
+ 
+</section>
+</main>
+
+<script src="js/main.js?v=2"></script>
+<script src="js/auth.js?v=2"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => console.log("Service Worker Registered"));
+}
+</script>
+
 </body>
-</html>
 
+</html>

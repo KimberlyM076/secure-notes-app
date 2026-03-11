@@ -1,129 +1,133 @@
-import {getNotes, saveNotes} from './storage.js';
+// Check authentication when page loads
+document.addEventListener("DOMContentLoaded", () => {
 
-// CRUD operations for notes
+    const isAuthenticated = sessionStorage.getItem("isAuthenticated");
 
-// Creating a new note
-function createNote(title, content) {
-
-    // Safety checks
-    if (!title || !content) return;
-    if (typeof title !== "string" || typeof content !== "string") return;
-    if (title.trim() === "" || content.trim() === "") return;
-
-    const notes = getNotes();
-
-    const newNote = {
-        id: crypto.randomUUID(),
-        title,
-        content,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    };
-
-    notes.push(newNote);
-    saveNotes(notes);
-    renderNotes();
-}
-
-// Deleting a note
-function deleteNote(id) {
-    if (!id || typeof id !== "string") return;
-
-    let notes = getNotes();
-    const filteredNotes = notes.filter(note => note.id !== id);
-
-     // If nothing changed, note didn't exist
-    if (filteredNotes.length === notes.length) return;
-
-    saveNotes(filteredNotes);
-    renderNotes();
-}
-
-// Updating a note
-function updateNote(id, newTitle, newContent) {
-
-    // Safety checks
-    if (!id || !newTitle || !newContent) return;
-    if (typeof id !== "string" || typeof newTitle !== "string" || typeof newContent !== "string") return;
-    if (newTitle.trim() === "" || newContent.trim() === "") return;
-
-// Find the note to update
-    const notes = getNotes();
-    const note = notes.find(note => note.id === id);
-
-    if (!note) {
+    if (!isAuthenticated) {
+        window.location.href = "index.html";
         return;
     }
 
-    note.title = newTitle;
-    note.content = newContent;
-    note.updatedAt = new Date().toISOString();
-    saveNotes(notes);
-    renderNotes();
+    loadNotes();
+
+    // Save note button
+    const saveBtn = document.getElementById("saveNoteBtn");
+
+    if (saveBtn) {
+        saveBtn.addEventListener("click", async () => {
+
+            const title = document.getElementById("noteTitle").value.trim();
+            const content = document.getElementById("noteContent").value.trim();
+
+            if (!title || !content) return;
+
+            await createNote(title, content);
+
+            document.getElementById("noteTitle").value = "";
+            document.getElementById("noteContent").value = "";
+        });
+    }
+
+    // Logout button
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            sessionStorage.clear();
+            window.location.href = "index.html";
+        });
+    }
+
+});
+
+
+// Create a new note
+async function createNote(title, content) {
+
+    const userId = sessionStorage.getItem("userId");
+
+    await fetch("http://localhost:5000/notes", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title,
+            content,
+            userId
+        })
+    });
+
+    loadNotes();
 }
 
-// Retrieving a note by ID
-function getNoteById(id) {
 
-    if (!id || typeof id !== "string") return null;
+// Load notes from backend
+async function loadNotes() {
 
-    const notes = getNotes();
-    const note = notes.find(note => note.id === id);
-    return note || null;
+    const userId = sessionStorage.getItem("userId");
+
+    const res = await fetch(`http://localhost:5000/notes?userId=${userId}`);
+
+    const notes = await res.json();
+
+    renderNotes(notes);
+
 }
 
-//Clearing all notes (For testing purposes)
-function clearAllNotes() {
-    localStorage.removeItem('secureNotesData');
-}
 
-function renderNotes() {
-    const notes = getNotes();
-    const container = document.getElementById('notesContainer');
+// Display notes
+function renderNotes(notes = []) {
 
-    //if no notes, show message: no notes yet
+    const container = document.getElementById("notesContainer");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
     if (notes.length === 0) {
-    container.textContent = "No notes yet.";
-    return;
+        container.textContent = "No notes yet.";
+        return;
     }
-    
-    if (!container) {        
-//For testing - this should never happen if HTML is correct
-        console.log("Rendering notes...");
-
-        return; //prevents crash if HTML is not ready yet
-    }
-
-    container.innerHTML = '';
 
     notes.forEach(note => {
-        const noteDiv = document.createElement('div');
-        noteDiv.classList.add('note');
-        
-        const titleElement = document.createElement("h3");
-        titleElement.textContent = note.title;
 
-        const contentElement = document.createElement("p");
-        contentElement.textContent = note.content;
+        const noteDiv = document.createElement("div");
+        noteDiv.className = "note";
+
+        const title = document.createElement("h3");
+        title.textContent = note.title;
+
+        const content = document.createElement("p");
+        content.textContent = note.content;
 
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
+
         deleteBtn.addEventListener("click", () => {
-            deleteNote(note.id);
-            renderNotes();
+            deleteNote(note._id);
         });
 
-        noteDiv.appendChild(titleElement);
-        noteDiv.appendChild(contentElement);
+        noteDiv.appendChild(title);
+        noteDiv.appendChild(content);
         noteDiv.appendChild(deleteBtn);
 
         container.appendChild(noteDiv);
+
     });
+
 }
 
-export { createNote, deleteNote, updateNote, getNoteById, clearAllNotes };
 
-window.createNote = createNote;
-window.deleteNote = deleteNote;
-window.renderNotes = renderNotes;
-window.updateNotePrompt = updateNotePrompt;
+// Delete a note
+async function deleteNote(id) {
+
+    await fetch(`http://localhost:5000/notes/${id}`, {
+        method: "DELETE"
+    });
+
+    loadNotes();
+
+}
+
+export { createNote, renderNotes };

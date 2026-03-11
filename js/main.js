@@ -1,11 +1,22 @@
+import { createNote, renderNotes } from './notes.js';
+
 if (!sessionStorage.getItem("isAuthenticated")) {
     window.location.href = "index.html";
 }
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-        sessionStorage.removeItem("isAuthenticated");
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            sessionStorage.removeItem("isAuthenticated");
             window.location.href = "index.html";
         });
+    }
+
+});
 
 function hashPassword(password) {
     return btoa(password);
@@ -20,12 +31,12 @@ function handleAuth() {
         return;
     }
 
-    const storedPassword = localStorage.getItem('secureNotesPassword');
+    const storedPassword = localStorage.getItem('lotusNotesPassword');
 
 //First time USER sign-up
     if (!storedPassword) {
         const hashed = hashPassword(passwordInput.value);
-        localStorage.setItem('secureNotesPassword', hashed);
+        localStorage.setItem('lotusNotesPassword', hashed);
         alert('Password set successfully. You can now create and view your notes.');
         window.location.href = 'notes.html';
     }
@@ -34,6 +45,7 @@ function handleAuth() {
     else {
         const hashedInput = hashPassword(passwordInput.value);
         if (hashedInput === storedPassword) {
+            sessionStorage.setItem("isAuthenticated", "true");
             window.location.href = 'notes.html';
         } else {
             errorMessage.textContent = 'Incorrect password. Please try again.';
@@ -41,8 +53,6 @@ function handleAuth() {
     }
 }
 
-//For testing
-    console.log("Notes page loaded");
 
 let logoutTimer;
 
@@ -68,20 +78,3 @@ document.addEventListener('mousemove', resetTimer);
 
 //start timer immediately on page load
 startAutoLogout();
-
-//event listener for notes page
-document.addEventListener("DOMContentLoaded", () => {
-    const saveBtn = document.getElementById("saveNoteBtn");
-
-    if (saveBtn) {
-        saveBtn.addEventListener("click", () => {
-            const title = document.getElementById("noteTitle").value;
-            const content = document.getElementById("noteContent").value;
-
-            createNote(title, content);
-            renderNotes();
-        });
-    }
-
-    renderNotes();
-});

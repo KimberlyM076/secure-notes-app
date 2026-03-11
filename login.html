@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lotus Notes | Login</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo-container">
+<img src="images/LotusNotes.png" alt="Lotus Notes Logo" class="logo">
+</div>
+
+<nav class="nav-links">
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="login.html">Login</a></li>
+<li><a href="notes.html">Notes</a></li>
+</ul>
+</nav>
+
+</header>
+
+<main class="page">
+
+<section class="login-card">
+
+<h1>Login</h1>
+<p class="subtitle">Enter your password to continue.</p>
+
+<div id="login-section">
+
+<input
+type="password"
+id="usernameInput"
+id="passwordInput"
+placeholder="Enter password"
+/>
+
+<button id="authButton">Continue</button>
+
+<p id="errorMessage"></p>
+
+</div>
+
+<p>
+Forgot your password?
+<a href="#" id="resetPassword">Reset password</a>
+</p>
+
+</section>
+
+</main>
+
+<script src="js/auth.js"></script>
+
+</body>
+</html>
