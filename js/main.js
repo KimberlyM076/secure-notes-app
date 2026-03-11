@@ -1,13 +1,22 @@
-import { renderNotes } from './notes.js';
+import { createNote, renderNotes } from './notes.js';
 
 if (!sessionStorage.getItem("isAuthenticated")) {
     window.location.href = "index.html";
 }
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-        sessionStorage.removeItem("isAuthenticated");
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            sessionStorage.removeItem("isAuthenticated");
             window.location.href = "index.html";
         });
+    }
+
+});
 
 function hashPassword(password) {
     return btoa(password);
@@ -69,20 +78,3 @@ document.addEventListener('mousemove', resetTimer);
 
 //start timer immediately on page load
 startAutoLogout();
-
-//event listener for notes page
-document.addEventListener("DOMContentLoaded", () => {
-    const saveBtn = document.getElementById("saveNoteBtn");
-
-    if (saveBtn) {
-        saveBtn.addEventListener("click", () => {
-            const title = document.getElementById("noteTitle").value;
-            const content = document.getElementById("noteContent").value;
-
-            createNote(title, content);
-            renderNotes();
-        });
-    }
-
-    renderNotes();
-});

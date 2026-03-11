@@ -43,10 +43,11 @@
  
   <!-- SIGNUP SECTION -->
   <div id="signup-section">
-    <h1>Create your password</h1>
+    <h1>Enter your Email and Create your password</h1>
 
     <p class="subtitle">Set a password to protect your notes.</p>
  
+      <input type="email" id="signupEmail" placeholder="Enter your email">
       <input type="password" id="signupPassword" placeholder="Create password">
       <input type="password" id="confirmPassword" placeholder="Confirm password">
       <button id="createAccountBtn" type="button">Create Account</button>
@@ -62,6 +63,7 @@
     <h2>Login</h2>
  
     <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Enter your email">
       <p class="subtitle">Enter your password to access your notes.</p>
         <input type="password" id="loginPassword" placeholder="Enter password">
 
@@ -70,7 +72,7 @@
           Remember me
         </label>
 
-        <button id="login-Btn" type="submit">Login</button><br><br>
+        <button id="loginBtn" type="submit">Login</button><br><br>
     </form>
     
     <p id="loginMessage" class="auth-message"></p>

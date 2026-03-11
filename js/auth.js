@@ -86,12 +86,16 @@ async function hashPassword(password) {
 // Signup
 async function handleSignup() {
 
+    const emailInput = document.getElementById("signupEmail");
     const passwordInput = document.getElementById("signupPassword");
     const confirmPasswordInput = document.getElementById("confirmPassword");
     const message = document.getElementById("signupMessage");
 
+    const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
     const confirmPassword = confirmPasswordInput.value.trim();
+
+    console.log(email, password);
 
     if (password !== confirmPassword) {
         message.textContent = "Passwords do not match";
@@ -105,7 +109,7 @@ async function handleSignup() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ password })
+            body: JSON.stringify({ email, password })
         });
 
         const data = await response.json();
@@ -126,13 +130,15 @@ async function handleSignup() {
 // Login
 async function handleLogin() {
 
+    const emailInput = document.getElementById("loginEmail");
     const passwordInput = document.getElementById("loginPassword");
     const message = document.getElementById("loginMessage");
 
+    const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
-    if (!password) {
-        message.textContent = "Please enter your password";
+    if (!email || !password) {
+        message.textContent = "Please enter your email and password";
         return;
     }
 
@@ -143,7 +149,7 @@ async function handleLogin() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ password })
+            body: JSON.stringify({ email, password })
         });
 
         const data = await response.json();
@@ -152,12 +158,12 @@ async function handleLogin() {
 
             sessionStorage.setItem("isAuthenticated", "true");
 
-            localStorage.setItem("userId", data.userId);
+            sessionStorage.setItem("userId", data.userId);
 
             window.location.href = "notes.html";
 
         } else {
-            message.textContent = "Incorrect password";
+            message.textContent = "Incorrect email or password";
         }
 
     } catch (error) {

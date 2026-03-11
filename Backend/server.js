@@ -33,16 +33,6 @@ app.get("/", (req, res) => {
   res.send("Lotus Notes API Running");
 });
 
-// User schema
-const UserSchema = new mongoose.Schema({
-  password: {
-    type: String,
-    required: true
-  }
-});
-
-const User = mongoose.model("User", UserSchema);
-
 // Signup
 app.post("/signup", async (req, res) => {
 
@@ -51,15 +41,16 @@ app.post("/signup", async (req, res) => {
     console.log("Signup request received");
     console.log(req.body);
 
-    const { password } = req.body;
+    const { email, password } = req.body;
 
-    if (!password) {
-      return res.status(400).json({ success: false, message: "Password required" });
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: "Email and password required" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
+      email,
       password: hashedPassword
     });
 
@@ -79,22 +70,39 @@ app.post("/signup", async (req, res) => {
 });
 
 // Login
+// Login
 app.post("/login", async (req, res) => {
 
-  const { password } = req.body;
+  try {
 
-  const user = await User.findOne();
+    const { email, password } = req.body;
 
-  if (!user) {
-    return res.json({ success: false });
-  }
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: "Email and password required" });
+    }
 
-  const match = await bcrypt.compare(password, user.password);
+    const user = await User.findOne({ email });
 
-  if (match) {
-    res.json({ success: true });
-  } else {
-    res.json({ success: false });
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      return res.json({ success: false, message: "Incorrect password" });
+    }
+
+    res.json({
+      success: true,
+      userId: user._id
+    });
+
+  } catch (error) {
+
+    console.error("Login error:", error);
+    res.status(500).json({ success: false });
+
   }
 
 });
@@ -109,23 +117,7 @@ const NoteSchema = new mongoose.Schema({
 });
 
 //Note model
-const Note = mongoose.model("Note", NoteSchema);
-const mongoose = require("mongoose");
-
-const noteSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
-  },
-
-  title: String,
-
-  content: String
-
-}, { timestamps: true });
-
-module.exports = mongoose.model("Note", noteSchema);
+const Note = require("./models/Notes");
 
 // Save note to database
 app.post("/notes", async (req, res) => {
