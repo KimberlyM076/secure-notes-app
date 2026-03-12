@@ -1,12 +1,13 @@
-Delali Kpessou
-
 # Lotus Notes – Secure Notes Web Application
 
 A full-stack secure notes application that allows users to create, view, and manage personal notes after authenticating with their email and password. Each user’s notes are securely stored in a database and isolated from other users.
 
-This project demonstrates practical experience building a **full-stack JavaScript application** with a frontend, backend API, and database integration.
+This project demonstrates practical teamwork experience building a **full-stack JavaScript application** with a frontend, backend API, and database integration.
 
 ---
+# Contributors
+Kim - Add your role
+Delali - Backend architecture and Integragtion, Database Design, and UI efficiency 
 
 # Overview
 
