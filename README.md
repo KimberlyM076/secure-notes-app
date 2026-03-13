@@ -6,8 +6,9 @@ This project demonstrates practical teamwork experience building a **full-stack 
 
 ---
 # Contributors
-Kim - Add your role
-Delali - Backend architecture and Integragtion, Database Design, and UI efficiency 
+
+Kim - Frontend development and UI design
+Delali - Backend architecture and Integration, Database Design, and UI efficiency 
 
 # Overview
 
@@ -170,6 +171,7 @@ lotus-notes-app
 
 ---
 
+# Delali
 # Key Learning Outcomes
 
 This project provided hands-on experience with full-stack development concepts including:
@@ -207,10 +209,6 @@ Planned improvements include:
 
 # Screenshots
 
-*(Add screenshots of your app here for your portfolio)*
-
-Example sections you can include:
-
 ![Login Page](images/LoginPage.png)
 ![Notes Dashboard](images/NotesDashboard.png)
 ![Creating a Note](images/CreatingNote.png)
@@ -225,26 +223,12 @@ Login Flow:
 2. Frontend sends POST request to /api/login endpoint.
 3. Backend validates credentials and establishes user session.
 
- ┌─────────────┐
- │   Browser   │
- │  (Frontend) │
- └──────┬──────┘
-        │ API Request
-        ▼
- ┌─────────────┐
- │ Express API │
- │  Node.js    │
- └──────┬──────┘
-        │ Database Query
-        ▼
- ┌─────────────┐
- │   MongoDB   │
- │ Notes +     │
- │ Users       │
- └─────────────┘
+![User Authentication Flow](images/UserAuth.png)
+
 ---
 
 # Author Kim
+Developed the frontend of the application, including the user interface design and implementation using HTML, CSS, and JavaScript. Responsible for creating the login page, notes dashboard, and note creation form, as well as ensuring a responsive and user-friendly design.
 
 # Author Delali
 
