@@ -231,7 +231,8 @@ Login Flow:
 Developed the frontend of the application, including the user interface design and implementation using HTML, CSS, and JavaScript. Responsible for creating the login page, notes dashboard, and note creation form, as well as ensuring a responsive and user-friendly design.
 
 # Author Delali
-
-Final:
-App link: https://lotusnotes-kidelim.netlify.app/?mode=signup
 Developed as part of a learning project to gain practical experience with full-stack JavaScript development and modern web technologies which was my main role in the project (Not the structuring i.e. HTML and styling i.e. CSS of the app).
+
+
+Final Look
+App link: https://lotusnotes-kidelim.netlify.app/?mode=signup
