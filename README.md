@@ -232,4 +232,6 @@ Developed the frontend of the application, including the user interface design a
 
 # Author Delali
 
+Final:
+App link: https://lotusnotes-kidelim.netlify.app/?mode=signup
 Developed as part of a learning project to gain practical experience with full-stack JavaScript development and modern web technologies which was my main role in the project (Not the structuring i.e. HTML and styling i.e. CSS of the app).
