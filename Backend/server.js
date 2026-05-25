@@ -106,20 +106,12 @@ app.post("/login", async (req, res) => {
 
 });
 
-// Note schema for storing notes in the database
-const NoteSchema = new mongoose.Schema({
-  content: String,
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
-
 //Note model
 const Note = require("./models/Notes");
 
 // Save note to database
 app.post("/notes", async (req, res) => {
+  console.log("NOTE ROUTE HIT", req.body);
 
   try {
 
