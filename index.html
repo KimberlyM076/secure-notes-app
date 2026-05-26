@@ -29,7 +29,8 @@
 
 <nav class="nav-links">
 <ul>
-<li><a href="/">Home</a></li>
+<li><a href="/" aria-current="page">Home</a></li>
+<li><button id="guestAccessBtn" class="nav-guest-btn" type="button">Continue as Guest</button></li>
 <li><button id="auth0LoginBtn" class="nav-login-btn" type="button">Login</button></li>
 
 </ul>
@@ -93,7 +94,7 @@
 
 <!-- Install the Auth0 SPA SDK -->
 <script src="https://cdn.auth0.com/js/auth0-spa-js/2.18/auth0-spa-js.production.js"></script>
-<script type="module" src="js/auth.js?v=6"></script>
+<script type="module" src="js/auth.js?v=9"></script>
 
 <script>
 const featureCopy = {

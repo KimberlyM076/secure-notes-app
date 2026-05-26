@@ -4,9 +4,54 @@ let currentUserId = "";
 let allNotes = [];
 let activeSearchQuery = "";
 let editingNoteId = "";
+let isGuestMode = false;
+
+const GUEST_MODE_KEY = "lotusGuestMode";
+const GUEST_NOTES_KEY = "lotusGuestNotes";
+const API_BASE_STORAGE_KEY = "lotusApiBaseUrl";
 
 function getApiBaseUrl() {
-    return window.LOTUS_API_BASE_URL || "http://localhost:5000";
+    const fromGlobal = (window.LOTUS_API_BASE_URL || "").trim().replace(/\/+$/, "");
+    if (fromGlobal) return fromGlobal;
+
+    const fromStorage = (localStorage.getItem(API_BASE_STORAGE_KEY) || "").trim().replace(/\/+$/, "");
+    if (fromStorage) {
+        window.LOTUS_API_BASE_URL = fromStorage;
+        return fromStorage;
+    }
+
+    const fromOrigin = (window.location.origin || "").trim().replace(/\/+$/, "");
+    return fromOrigin || "http://localhost:5000";
+}
+
+function getGuestNotes() {
+    try {
+        return JSON.parse(sessionStorage.getItem(GUEST_NOTES_KEY) || "[]");
+    } catch {
+        return [];
+    }
+}
+
+function saveGuestNotes(notes) {
+    sessionStorage.setItem(GUEST_NOTES_KEY, JSON.stringify(notes));
+}
+
+function isGuestRequest() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("guest") === "1" || sessionStorage.getItem(GUEST_MODE_KEY) === "true";
+}
+
+function setGuestBanner() {
+    const guestBanner = document.getElementById("guestModeBanner");
+    if (!guestBanner) return;
+
+    if (!isGuestMode) {
+        guestBanner.hidden = true;
+        return;
+    }
+
+    guestBanner.hidden = false;
+    guestBanner.textContent = "Guest mode: notes stay in this browser session only and are not saved to your account.";
 }
 
 function showTransientStatus(message, isError = false) {
@@ -18,19 +63,29 @@ function showTransientStatus(message, isError = false) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const user = await requireAuth();
-    if (!user) return;
+    isGuestMode = isGuestRequest();
 
-    currentUserId = user.sub || user.email || "";
-    if (!currentUserId) {
-        showTransientStatus("Unable to identify your account. Please sign in again.", true);
-        return;
-    }
+    if (isGuestMode) {
+        sessionStorage.setItem(GUEST_MODE_KEY, "true");
+        currentUserId = "guest-session";
+        setGuestBanner();
+        allNotes = getGuestNotes();
+        applySearchAndRender();
+    } else {
+        const user = await requireAuth();
+        if (!user) return;
 
-    try {
-        await loadNotes();
-    } catch (error) {
-        showTransientStatus(error.message, true);
+        currentUserId = user.sub || user.email || "";
+        if (!currentUserId) {
+            showTransientStatus("Unable to identify your account. Please sign in again.", true);
+            return;
+        }
+
+        try {
+            await loadNotes();
+        } catch (error) {
+            showTransientStatus(error.message, true);
+        }
     }
 
     const searchInput = document.getElementById("searchInput");
@@ -92,13 +147,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     const logoutBtn = document.getElementById("logoutBtn");
 
     if (logoutBtn) {
+        if (isGuestMode) {
+            logoutBtn.textContent = "Exit Guest";
+        }
+
         logoutBtn.addEventListener("click", async () => {
+            if (isGuestMode) {
+                sessionStorage.removeItem(GUEST_MODE_KEY);
+                sessionStorage.removeItem(GUEST_NOTES_KEY);
+                window.location.href = "/";
+                return;
+            }
+
             await logout();
         });
     }
 });
 
 async function createNote(title, content) {
+    if (isGuestMode) {
+        const newNote = {
+            _id: `guest-${Date.now()}`,
+            title,
+            content,
+            userId: currentUserId,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+
+        allNotes = [newNote, ...allNotes];
+        saveGuestNotes(allNotes);
+        applySearchAndRender();
+        return;
+    }
+
     const response = await fetch(`${getApiBaseUrl()}/notes`, {
         method: "POST",
         headers: {
@@ -120,6 +202,15 @@ async function createNote(title, content) {
 }
 
 async function updateNote(noteId, title, content) {
+    if (isGuestMode) {
+        allNotes = allNotes.map((note) => note._id === noteId
+            ? { ...note, title, content, updatedAt: new Date().toISOString() }
+            : note);
+        saveGuestNotes(allNotes);
+        applySearchAndRender();
+        return;
+    }
+
     const response = await fetch(`${getApiBaseUrl()}/notes/${noteId}`, {
         method: "PUT",
         headers: {
@@ -141,6 +232,12 @@ async function updateNote(noteId, title, content) {
 }
 
 async function loadNotes() {
+    if (isGuestMode) {
+        allNotes = getGuestNotes();
+        applySearchAndRender();
+        return;
+    }
+
     const res = await fetch(`${getApiBaseUrl()}/notes?userId=${encodeURIComponent(currentUserId)}`);
     if (!res.ok) {
         const message = await res.text();
@@ -269,6 +366,20 @@ function renderNotes(notes = []) {
 async function deleteNote(id) {
 
     try {
+        if (isGuestMode) {
+            allNotes = allNotes.filter((note) => note._id !== id);
+            saveGuestNotes(allNotes);
+
+            if (editingNoteId === id) {
+                setEditMode(null);
+                clearEditor();
+            }
+
+            applySearchAndRender();
+            showTransientStatus("Note deleted.");
+            return;
+        }
+
         const response = await fetch(`${getApiBaseUrl()}/notes/${id}?userId=${encodeURIComponent(currentUserId)}`, {
             method: "DELETE"
         });

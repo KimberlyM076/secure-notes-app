@@ -2,9 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+const os = require("os");
 const Note = require("./models/Notes");
 
-require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
+require("dotenv").config({ path: path.join(__dirname, "..", ".env"), override: true });
 
 const app = express();
 const WEB_ROOT = path.join(__dirname, "..");
@@ -14,14 +15,38 @@ app.use(express.json());
 app.use(express.static(WEB_ROOT));
 
 const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST || "0.0.0.0";
+
+function getLocalNetworkUrls(port) {
+  const interfaces = os.networkInterfaces();
+  const urls = [];
+
+  for (const values of Object.values(interfaces)) {
+    if (!Array.isArray(values)) continue;
+
+    for (const details of values) {
+      const isIPv4 = details.family === "IPv4" || details.family === 4;
+      if (!isIPv4 || details.internal) continue;
+      urls.push(`http://${details.address}:${port}`);
+    }
+  }
+
+  return [...new Set(urls)];
+}
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {
 
     console.log("MongoDB Connected");
 
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
+  app.listen(PORT, HOST, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+
+    const lanUrls = getLocalNetworkUrls(PORT);
+    if (lanUrls.length) {
+      console.log("LAN URLs for mobile testing:");
+      lanUrls.forEach((url) => console.log(`- ${url}`));
+    }
     });
 
 })

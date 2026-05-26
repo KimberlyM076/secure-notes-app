@@ -124,9 +124,25 @@ http://localhost:5000
 
 Auth0 local settings used by this project:
 
-* Callback URL: `http://localhost:5000/js/callback`
-* Logout URL: `http://localhost:5000/index.html`
+* Callback URL: `http://localhost:5000/notes.html`
+* Logout URL: `http://localhost:5000/`
 * Web Origin: `http://localhost:5000`
+
+Netlify deployment settings (frontend):
+
+* Site URL: `https://lotus-notes.netlify.app`
+* Callback URL: `https://lotus-notes.netlify.app/notes.html`
+* Logout URL: `https://lotus-notes.netlify.app/`
+* Web Origin: `https://lotus-notes.netlify.app`
+
+For Netlify static hosting, keep `auth-config.json` at the project root so it is served at `/auth-config.json`.
+Set these keys in that file:
+
+* `domain`
+* `clientId`
+* `redirectUri`
+* `logoutRedirectUri`
+* `apiBaseUrl` (your deployed backend URL)
 
 ---
 

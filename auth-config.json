@@ -1,0 +1,7 @@
+{
+  "domain": "dev-aqp1tad34zehtg2d.uk.auth0.com",
+  "clientId": "w4TAwYIy20usyssePRWYCtVaeq2EjxZK",
+  "redirectUri": "https://lotus-notes.netlify.app/notes.html",
+  "logoutRedirectUri": "https://lotus-notes.netlify.app/",
+  "apiBaseUrl": "https://your-backend-domain"
+}

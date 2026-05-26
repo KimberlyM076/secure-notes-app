@@ -18,7 +18,7 @@
     <nav class="nav-links">
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/notes.html">Notes</a></li>
+        <li><a href="/notes.html" aria-current="page">Notes</a></li>
       </ul>
     </nav>
   </header>
@@ -28,6 +28,7 @@
     <div class="notes-toolbar">
       <h1>Your Notes</h1>
       <p class="subtitle">Create, search, edit, and organize your ideas.</p>
+      <p id="guestModeBanner" class="guest-mode-banner" hidden></p>
     </div>
 
     <div class="search-row">
@@ -56,7 +57,7 @@
 </main>
 
 <script src="https://cdn.auth0.com/js/auth0-spa-js/2.18/auth0-spa-js.production.js"></script>
-<script type="module" src="js/main.js?v=4"></script>
+<script type="module" src="js/main.js?v=5"></script>
 
 </body>
 </html>
