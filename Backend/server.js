@@ -1,16 +1,17 @@
-require("dotenv").config();
-
-const User = require("./models/User");
-
 const express = require("express");
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 const cors = require("cors");
+const path = require("path");
+const Note = require("./models/Notes");
+
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
 const app = express();
+const WEB_ROOT = path.join(__dirname, "..");
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(WEB_ROOT));
 
 const PORT = process.env.PORT || 5000;
 
@@ -28,86 +29,51 @@ mongoose.connect(process.env.MONGO_URI)
     console.error("MongoDB connection failed:", err);
 });
 
-// Test route
+app.get("/health", (req, res) => {
+  res.json({ ok: true });
+});
+
 app.get("/", (req, res) => {
-  res.send("Lotus Notes API Running");
+  res.sendFile(path.join(WEB_ROOT, "index.html"));
 });
 
-// Signup
-app.post("/signup", async (req, res) => {
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(WEB_ROOT, "login.html"));
+});
 
-  try {
+app.get("/signup", (req, res) => {
+  res.redirect("/index.html?action=signup");
+});
 
-    console.log("Signup request received");
-    console.log(req.body);
+app.get("/auth-config", (req, res) => {
+  const {
+    AUTH0_DOMAIN,
+    AUTH0_CLIENT_ID,
+    AUTH0_REDIRECT_URI,
+    AUTH0_LOGOUT_REDIRECT_URI
+  } = process.env;
 
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ success: false, message: "Email and password required" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = new User({
-      email,
-      password: hashedPassword
+  if (!AUTH0_DOMAIN || !AUTH0_CLIENT_ID) {
+    return res.status(500).json({
+      success: false,
+      message: "Missing AUTH0_DOMAIN or AUTH0_CLIENT_ID"
     });
-
-    await user.save();
-
-    console.log("User saved to database");
-
-    res.json({ success: true });
-
-  } catch (error) {
-
-    console.error("Signup error:", error);
-    res.status(500).json({ success: false });
-
   }
 
+  res.json({
+    domain: AUTH0_DOMAIN,
+    clientId: AUTH0_CLIENT_ID,
+    redirectUri: AUTH0_REDIRECT_URI || `${req.protocol}://${req.get("host")}/auth/callback`,
+    logoutRedirectUri: AUTH0_LOGOUT_REDIRECT_URI || `${req.protocol}://${req.get("host")}/index.html`
+  });
 });
 
-// Login
-app.post("/login", async (req, res) => {
-
-  try {
-
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ success: false, message: "Email and password required" });
-    }
-
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.json({ success: false, message: "User not found" });
-    }
-
-    const match = await bcrypt.compare(password, user.password);
-
-    if (!match) {
-      return res.json({ success: false, message: "Incorrect password" });
-    }
-
-    res.json({
-      success: true,
-      userId: user._id
-    });
-
-  } catch (error) {
-
-    console.error("Login error:", error);
-    res.status(500).json({ success: false });
-
-  }
-
+// Auth0 callback endpoints forward code/state params to notes page.
+app.get(["/auth/callback", "/js/callback"], (req, res) => {
+  const queryIndex = req.originalUrl.indexOf("?");
+  const query = queryIndex >= 0 ? req.originalUrl.slice(queryIndex) : "";
+  res.redirect(`/notes.html${query}`);
 });
-
-//Note model
-const Note = require("./models/Notes");
 
 // Save note to database
 app.post("/notes", async (req, res) => {
@@ -116,6 +82,10 @@ app.post("/notes", async (req, res) => {
   try {
 
     const { title, content, userId } = req.body;
+
+    if (!userId || !title || !content) {
+      return res.status(400).json({ success: false, message: "userId, title, and content are required" });
+    }
 
     const note = new Note({
       title,
@@ -135,12 +105,68 @@ app.post("/notes", async (req, res) => {
 
 });
 
+app.patch("/notes/:noteId", async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const { title, content, userId } = req.body;
+
+    if (!userId || !title || !content) {
+      return res.status(400).json({ success: false, message: "userId, title, and content are required" });
+    }
+
+    const updated = await Note.findOneAndUpdate(
+      { _id: noteId, userId },
+      { title, content },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ success: false, message: "Note not found" });
+    }
+
+    res.json({ success: true, note: updated });
+  } catch (error) {
+    console.error("Update note error:", error);
+    res.status(500).json({ success: false });
+  }
+});
+
+app.put("/notes/:noteId", async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const { title, content, userId } = req.body;
+
+    if (!userId || !title || !content) {
+      return res.status(400).json({ success: false, message: "userId, title, and content are required" });
+    }
+
+    const updated = await Note.findOneAndUpdate(
+      { _id: noteId, userId },
+      { title, content },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ success: false, message: "Note not found" });
+    }
+
+    res.json({ success: true, note: updated });
+  } catch (error) {
+    console.error("Update note error:", error);
+    res.status(500).json({ success: false });
+  }
+});
+
 //API route to get notes from the database
 app.get("/notes", async (req, res) => {
 
   try {
 
     const { userId } = req.query;
+
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "userId is required" });
+    }
 
     const notes = await Note.find({ userId }).sort({ createdAt: -1 });
 
@@ -158,8 +184,18 @@ app.get("/notes", async (req, res) => {
 app.delete("/notes/:noteId", async (req, res) => {
   try {
     const { noteId } = req.params;
+    const { userId } = req.query;
 
-    await Note.findByIdAndDelete(noteId);
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "userId is required" });
+    }
+
+    const removed = await Note.findOneAndDelete({ _id: noteId, userId });
+
+    if (!removed) {
+      return res.status(404).json({ success: false, message: "Note not found" });
+    }
+
     res.json({ success: true });
 
   } catch (error) {

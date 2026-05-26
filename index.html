@@ -20,7 +20,7 @@
 
 </head>
 
-<body>
+<body class="home-page">
 <header>
 
 <div class="logo-container">
@@ -29,8 +29,8 @@
 
 <nav class="nav-links">
 <ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="notes.html">Notes</a></li>
+<li><a href="/">Home</a></li>
+<li><button id="auth0LoginBtn" class="nav-login-btn" type="button">Login</button></li>
 
 </ul>
 </nav>
@@ -38,46 +38,100 @@
 </header>
 
 
-<main class="page">
-<section class="forms-card">
- 
-  <!-- SIGNUP SECTION -->
-  <div id="signup-section">
-    <h1>Enter your Email and Create your password</h1>
+<main class="page home-main">
+<section class="hero-card">
+  <p class="hero-tag">Secure by design</p>
+  <h1>Capture ideas without losing your flow.</h1>
+  <p class="subtitle">Lotus Notes gives you a private writing space with Auth0-protected access and a clean note experience.</p>
 
-    <p class="subtitle">Set a password to protect your notes.</p>
- 
-      <input type="email" id="signupEmail" placeholder="Enter your email">
-      <input type="password" id="signupPassword" placeholder="Create password">
-      <input type="password" id="confirmPassword" placeholder="Confirm password">
-      <button id="createAccountBtn" type="button">Create Account</button>
-      <p id="signupMessage"></p>
-
-      <p class="switch-link">Already have a password? <a href="#" id="showLoginLink">Login</a></p>
-
+  <div class="hero-actions">
+    <button id="auth0SignupBtn" type="button" class="primary-cta">Create your account</button>
+    <a href="#about" class="secondary-link">Learn more</a>
   </div>
- 
-  <!-- LOGIN SECTION -->
-  <div id="login-section" class="auth-card">
-    <h1>Welcome Back!</h1>
-    <h2>Login</h2><br>
- 
-    <form id="loginForm">
-      <input type="email" id="loginEmail" placeholder="Enter your email">
-        <input type="password" id="loginPassword" placeholder="Enter password">
+</section>
 
-        <button id="loginBtn" type="submit">Login</button><br><br>
-    </form>
-    
-    <p id="loginMessage" class="auth-message"></p>
-    
+<section id="featured" class="content-card featured-card">
+  <div class="section-head">
+    <h2>Featured</h2>
+    <p>Explore what makes Lotus Notes feel effortless.</p>
   </div>
- 
+
+  <div class="feature-grid" role="tablist" aria-label="Feature highlights">
+    <button type="button" class="feature-tile is-active" data-topic="focus" role="tab" aria-selected="true">Focus Mode</button>
+    <button type="button" class="feature-tile" data-topic="secure" role="tab" aria-selected="false">Secure Sign-In</button>
+    <button type="button" class="feature-tile" data-topic="flow" role="tab" aria-selected="false">Fast Workflow</button>
+  </div>
+
+  <article id="featurePanel" class="feature-panel" aria-live="polite">
+    <h3>Focus Mode</h3>
+    <p>Minimal distractions, smooth writing, and quick save actions let you stay in thought.</p>
+  </article>
+</section>
+
+<section id="about" class="content-card about-card">
+  <div class="section-head">
+    <h2>About Lotus Notes</h2>
+    <p>A soft, calm workspace for capturing ideas that matter.</p>
+  </div>
+
+  <details class="about-item" open>
+    <summary>Why this app exists</summary>
+    <p>Lotus Notes was created as a clean, secure place to write and organize your personal thoughts.</p>
+  </details>
+
+  <details class="about-item">
+    <summary>How your access works</summary>
+    <p>Authentication is handled through Auth0, so sign-up and login are managed securely before you reach your notes.</p>
+  </details>
+
+  <details class="about-item">
+    <summary>What happens after login</summary>
+    <p>You are redirected to your notes dashboard where you can create, view, and delete notes linked to your authenticated account.</p>
+  </details>
 </section>
 </main>
 
-<script src="js/main.js?v=2"></script>
-<script src="js/auth.js?v=2"></script>
+<!-- Install the Auth0 SPA SDK -->
+<script src="https://cdn.auth0.com/js/auth0-spa-js/2.18/auth0-spa-js.production.js"></script>
+<script type="module" src="js/auth.js?v=6"></script>
+
+<script>
+const featureCopy = {
+  focus: {
+    title: "Focus Mode",
+    description: "Minimal distractions, smooth writing, and quick save actions let you stay in thought."
+  },
+  secure: {
+    title: "Secure Sign-In",
+    description: "Auth0 powers account access with modern authentication so your note space remains private."
+  },
+  flow: {
+    title: "Fast Workflow",
+    description: "From idea to saved note in seconds with a lightweight interface optimized for momentum."
+  }
+};
+
+const featurePanel = document.getElementById("featurePanel");
+const featureButtons = document.querySelectorAll(".feature-tile");
+
+featureButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const topic = button.dataset.topic;
+    const copy = featureCopy[topic];
+    if (!copy || !featurePanel) return;
+
+    featureButtons.forEach((item) => {
+      item.classList.remove("is-active");
+      item.setAttribute("aria-selected", "false");
+    });
+
+    button.classList.add("is-active");
+    button.setAttribute("aria-selected", "true");
+
+    featurePanel.innerHTML = `<h3>${copy.title}</h3><p>${copy.description}</p>`;
+  });
+});
+</script>
 
 <script>
 if ("serviceWorker" in navigator) {

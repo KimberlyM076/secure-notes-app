@@ -1,0 +1,7 @@
+{
+	"name": "lotus-notes",
+	"private": true,
+	"scripts": {
+		"start": "npm --prefix Backend start"
+	}
+}

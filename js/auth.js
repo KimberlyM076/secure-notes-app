@@ -1,158 +1,211 @@
-// Lotus Notes Authentication
-document.addEventListener("DOMContentLoaded", initAuth);
+const FALLBACK_API_BASE_URL = "http://localhost:5000";
+let resolvedApiBaseUrl = window.LOTUS_API_BASE_URL || "";
 
-function initAuth() {
+let authSettingsPromise;
+let authClientPromise;
 
-    const signupSection = document.getElementById("signup-section");
-    const loginSection = document.getElementById("login-section");
+function showAuthError(message) {
+    const container = document.querySelector(".auth-card") || document.body;
+    const existing = document.getElementById("authErrorMessage");
 
-    if (!signupSection || !loginSection) return;
+    if (existing) {
+        existing.textContent = message;
+        return;
+    }
 
+    const p = document.createElement("p");
+    p.id = "authErrorMessage";
+    p.style.color = "#b00020";
+    p.style.marginTop = "12px";
+    p.textContent = message;
+    container.appendChild(p);
+}
+
+function getDefaultRedirectUri() {
+    return `${resolvedApiBaseUrl || FALLBACK_API_BASE_URL}/auth/callback`;
+}
+
+function getDefaultLogoutUri() {
+    return `${resolvedApiBaseUrl || FALLBACK_API_BASE_URL}/index.html`;
+}
+
+function normalizeAuthConfig(config) {
+    return {
+        ...config,
+        redirectUri: config.redirectUri || getDefaultRedirectUri(),
+        logoutRedirectUri: config.logoutRedirectUri || getDefaultLogoutUri()
+    };
+}
+
+async function getAuthSettings() {
+    if (!authSettingsPromise) {
+        authSettingsPromise = (async () => {
+            const candidateBases = [
+                window.LOTUS_API_BASE_URL,
+                window.location.origin,
+                FALLBACK_API_BASE_URL
+            ].filter(Boolean);
+
+            const uniqueBases = [...new Set(candidateBases)];
+            const errors = [];
+
+            for (const baseUrl of uniqueBases) {
+                try {
+                    const response = await fetch(`${baseUrl}/auth-config`);
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        errors.push(`${baseUrl} -> ${response.status}`);
+                        console.warn(`Auth config fetch failed for ${baseUrl}:`, errorText);
+                        continue;
+                    }
+
+                    const config = await response.json();
+                    if (!config.domain || !config.clientId) {
+                        errors.push(`${baseUrl} -> invalid payload`);
+                        continue;
+                    }
+
+                    resolvedApiBaseUrl = baseUrl;
+                    window.LOTUS_API_BASE_URL = baseUrl;
+                    return normalizeAuthConfig(config);
+                } catch (error) {
+                    errors.push(`${baseUrl} -> ${error.message}`);
+                }
+            }
+
+            throw new Error(`Unable to load Auth0 config from known backends: ${errors.join(" | ")}`);
+        })();
+    }
+
+    return authSettingsPromise;
+}
+
+async function getAuthClient() {
+    if (!authClientPromise) {
+        authClientPromise = getAuthSettings().then((config) => auth0.createAuth0Client({
+            domain: config.domain,
+            clientId: config.clientId,
+            authorizationParams: {
+                redirect_uri: config.redirectUri
+            },
+            cacheLocation: "localstorage"
+        }));
+    }
+
+    return authClientPromise;
+}
+
+async function handleAuthCallback(client) {
+    const hasCallbackParams = window.location.search.includes("code=") && window.location.search.includes("state=");
+    if (!hasCallbackParams) return;
+
+    await client.handleRedirectCallback();
+    window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+export async function getAuthenticatedUser() {
+    const client = await getAuthClient();
+    await handleAuthCallback(client);
+
+    const isAuthenticated = await client.isAuthenticated();
+    if (!isAuthenticated) return null;
+
+    return client.getUser();
+}
+
+export async function login() {
+    const client = await getAuthClient();
+    try {
+        await client.loginWithRedirect();
+    } catch (error) {
+        showAuthError(`Login failed: ${error.message}`);
+        throw error;
+    }
+}
+
+export async function signup() {
+    const client = await getAuthClient();
+    try {
+        await client.loginWithRedirect({
+            authorizationParams: {
+                screen_hint: "signup"
+            }
+        });
+    } catch (error) {
+        showAuthError(`Signup failed: ${error.message}`);
+        throw error;
+    }
+}
+
+export async function logout() {
+    const config = await getAuthSettings();
+    const client = await getAuthClient();
+    await client.logout({
+        logoutParams: {
+            returnTo: config.logoutRedirectUri
+        }
+    });
+}
+
+export async function requireAuth() {
+    const user = await getAuthenticatedUser();
+    if (user) return user;
+
+    await login();
+    return null;
+}
+
+function isEntryPage() {
+    const path = window.location.pathname.toLowerCase();
+    return path.endsWith("/index.html") || path.endsWith("/login.html") || path === "/" || path === "/login" || path === "/signup";
+}
+
+function wireAuthButtons(loginButton, signupButton) {
+    if (loginButton) {
+        loginButton.addEventListener("click", async () => {
+            await login();
+        });
+    }
+
+    if (signupButton) {
+        signupButton.addEventListener("click", async () => {
+            await signup();
+        });
+    }
+}
+
+async function maybeRunRouteAction() {
     const params = new URLSearchParams(window.location.search);
-    const mode = params.get("mode");
+    const action = (params.get("action") || "").toLowerCase();
 
-    const storedHash = localStorage.getItem("lotusNotesPassword");
-
-    const loginPassword = document.getElementById("loginPassword");
-    if (loginPassword) loginPassword.value = "";
-
-    // Decide which card to show
-    if (mode === "login") {
-        signupSection.style.display = "none";
-        loginSection.style.display = "block";
-    } 
-    else {
-    signupSection.style.display = "block";
-    loginSection.style.display = "none";
+    if (action === "signup") {
+        await signup();
     }
 
-    // Switch from signup → login
-    const showLoginLink = document.getElementById("showLoginLink");
-    if (showLoginLink) {
-        showLoginLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            signupSection.style.display = "none";
-            loginSection.style.display = "block";
-        });
-    }
-
-    // Buttons
-    const createAccountBtn = document.getElementById("createAccountBtn");
-    const loginBtn = document.getElementById("loginBtn");
-
-    if (createAccountBtn) {
-        createAccountBtn.addEventListener("click", handleSignup);
-    }
-
-    if (loginBtn) {
-        loginBtn.addEventListener("click", handleLogin);
-    }
-
-    // Allow Enter key login
-    const loginForm = document.getElementById("loginForm");
-    if (loginForm) {
-        loginForm.addEventListener("submit", function(e){
-            e.preventDefault();
-            handleLogin();
-        });
+    if (action === "login") {
+        await login();
     }
 }
 
-
-// Password hashing
-async function hashPassword(password) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-}
-
-
-// Signup
-async function handleSignup() {
-
-    const emailInput = document.getElementById("signupEmail");
-    const passwordInput = document.getElementById("signupPassword");
-    const confirmPasswordInput = document.getElementById("confirmPassword");
-    const message = document.getElementById("signupMessage");
-
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
-    const confirmPassword = confirmPasswordInput.value.trim();
-
-    console.log(email, password);
-
-    if (password !== confirmPassword) {
-        message.textContent = "Passwords do not match";
-        return;
-    }
+document.addEventListener("DOMContentLoaded", async () => {
+    const loginButton = document.getElementById("auth0LoginBtn");
+    const signupButton = document.getElementById("auth0SignupBtn");
+    if (!loginButton && !signupButton) return;
 
     try {
-
-        const response = await fetch("http://localhost:5000/signup", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ email, password })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            sessionStorage.setItem("isAuthenticated", "true");
+        const user = await getAuthenticatedUser();
+        if (user) {
             window.location.href = "notes.html";
-        } else {
-            message.textContent = "Signup failed";
+            return;
         }
 
-    } catch (error) {
-        message.textContent = "Server error";
-    }
-}
+        wireAuthButtons(loginButton, signupButton);
 
-
-// Login
-async function handleLogin() {
-
-    const emailInput = document.getElementById("loginEmail");
-    const passwordInput = document.getElementById("loginPassword");
-    const message = document.getElementById("loginMessage");
-
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
-
-    if (!email || !password) {
-        message.textContent = "Please enter your email and password";
-        return;
-    }
-
-    try {
-
-        const response = await fetch("http://localhost:5000/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ email, password })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-
-            sessionStorage.setItem("isAuthenticated", "true");
-
-            sessionStorage.setItem("userId", data.userId);
-
-            window.location.href = "notes.html";
-
-        } else {
-            message.textContent = "Incorrect email or password";
+        if (isEntryPage()) {
+            await maybeRunRouteAction();
         }
-
     } catch (error) {
-        message.textContent = "Server error";
+        console.error(error);
+        showAuthError(`Auth configuration error: ${error.message}`);
     }
-}
+});

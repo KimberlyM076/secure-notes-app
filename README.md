@@ -1,6 +1,6 @@
 # Lotus Notes – Secure Notes Web Application
 
-A full-stack secure notes application that allows users to create, view, and manage personal notes after authenticating with their email and password. Each user’s notes are securely stored in a database and isolated from other users.
+A full-stack secure notes application that allows users to create, view, and manage personal notes after authenticating with Auth0. Each user’s notes are securely stored in a database and isolated from other users.
 
 This project demonstrates practical teamwork experience building a **full-stack JavaScript application** with a frontend, backend API, and database integration.
 
@@ -20,14 +20,12 @@ The project evolved from a simple browser-based note system using local storage 
 
 # Features
 
-* User signup and login with email and password
-* Secure session management
+* Auth0-based login and logout
 * Create and store personal notes
 * Delete notes
 * Notes stored in a database per user
-* Protected routes preventing unauthorized access
+* Auth-protected pages preventing unauthorized access
 * Logout functionality
-* Auto logout after inactivity
 * Modular JavaScript architecture using ES Modules
 
 ---
@@ -67,25 +65,20 @@ Client (Frontend)
 
 Server (Backend)
 
-* Handles authentication
 * Processes note creation and deletion
 * Communicates with the database
 
 Database
 
-* Stores users and notes collections
-* Associates notes with specific user IDs
+* Stores notes collection
+* Associates notes with Auth0 user IDs
 
 Example application flow:
 
 ```
-User logs in
+User signs in with Auth0
      ↓
-Frontend sends login request
-     ↓
-Server validates credentials
-     ↓
-User session established
+Frontend receives authenticated user profile
      ↓
 User creates notes
      ↓
@@ -114,12 +107,13 @@ Install dependencies:
 
 ```
 npm install
+npm --prefix Backend install
 ```
 
 Start the server:
 
 ```
-node server.js
+npm start
 ```
 
 Open the application in your browser:
@@ -127,6 +121,12 @@ Open the application in your browser:
 ```
 http://localhost:5000
 ```
+
+Auth0 local settings used by this project:
+
+* Callback URL: `http://localhost:5000/js/callback`
+* Logout URL: `http://localhost:5000/index.html`
+* Web Origin: `http://localhost:5000`
 
 ---
 
@@ -137,7 +137,6 @@ lotus-notes-app
 │
 ├── Backend
 │   ├── models
-│   │   └── User.js
 │   │   └── Notes.js
 │   ├── node_modules
 │   ├── .env
@@ -152,9 +151,7 @@ lotus-notes-app
 ├── js
 │  ├── auth.js
 │  ├── notes.js
-|  ├── main.js
-|  ├── storage.js
-|  └── crypto.js
+|  └── main.js
 |
 ├── images (folder for all images used in the app)
 |
@@ -179,7 +176,7 @@ This project provided hands-on experience with full-stack development concepts i
 * Building RESTful APIs
 * Integrating a frontend with a backend server
 * Managing application state across client and server
-* Implementing user authentication
+* Integrating third-party authentication (Auth0)
 * Working with a NoSQL database
 * Structuring modular JavaScript applications
 * Debugging frontend and backend integration issues
@@ -188,7 +185,7 @@ During development several real-world issues were identified and resolved, inclu
 
 * Duplicate event listeners causing repeated API requests
 * Browser ES module import errors
-* Synchronization issues between local storage and database storage
+* Callback route and redirect URI mismatches during Auth0 setup
 * Ensuring users only access their own notes
 
 ---
@@ -197,13 +194,11 @@ During development several real-world issues were identified and resolved, inclu
 
 Planned improvements include:
 
-* JWT-based authentication
-* Password hashing and improved security
 * Note editing functionality
 * Search and filtering for notes
 * Rich text support for note content
 * Deployment to a cloud platform
-* OAuth login (Google or GitHub)
+* Role-based authorization for shared notes
 
 ---
 
@@ -213,15 +208,10 @@ Planned improvements include:
 ![Notes Dashboard](images/NotesDashboard.png)
 ![Creating a Note](images/CreatingNote.png)
 The following User Authentication Flow illustrates how user authentication is handled in the application:
-Signup Flow:
-1. User submits signup form with email and password.
-2. Frontend sends POST request to /api/signup endpoint.
-3. Backend validates input and creates new user in MongoDB.
-
-Login Flow:
-1. User submits login form with email and password.
-2. Frontend sends POST request to /api/login endpoint.
-3. Backend validates credentials and establishes user session.
+Auth0 Flow:
+1. User clicks Continue with Auth0.
+2. Auth0 handles authentication and redirects to `/js/callback`.
+3. Frontend uses the Auth0 user ID to create and fetch notes from the backend.
 
 ![User Authentication Flow](images/UserAuth.png)
 
@@ -235,4 +225,4 @@ Developed as part of a learning project to gain practical experience with full-s
 
 
 Final Look
-App link: https://lotusnotes-kidelim.netlify.app/?mode=signup
+App link: https://lotusnotes-kidelim.netlify.app/

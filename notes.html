@@ -17,23 +17,33 @@
 
     <nav class="nav-links">
       <ul>
-        <li><a href="index.html?mode=signup">Home</a></li>
-        <li><a href="notes.html">Notes</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/notes.html">Notes</a></li>
       </ul>
     </nav>
   </header>
 
 <main class="page">
   <section class="notes-card">
-  
-<!-- Search bar -->
-    <input type="text" id="searchInput" placeholder="Search notes..." />
+    <div class="notes-toolbar">
+      <h1>Your Notes</h1>
+      <p class="subtitle">Create, search, edit, and organize your ideas.</p>
+    </div>
+
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="Search by title or content..." />
+      <button id="clearSearchBtn" class="secondary-btn" type="button">Clear</button>
+    </div>
+    <p id="notesStatus" class="notes-status" aria-live="polite"></p>
 
   <!-- Note Creation Form -->
       <div class="note-editor">
         <input id="noteTitle" type="text" placeholder="Note title" required />
         <textarea id="noteContent" placeholder="Write your note..." required></textarea>
-        <button id="saveNoteBtn" type="button">Save Note</button>
+        <div class="editor-actions">
+          <button id="saveNoteBtn" type="button">Save Note</button>
+          <button id="cancelEditBtn" class="secondary-btn" type="button" hidden>Cancel edit</button>
+        </div>
       </div>  
 
   <!-- Notes Display Area -->
@@ -45,8 +55,8 @@
   </section>
 </main>
 
-<script type="module" src="js/main.js?v=2"></script>
-<script type="module" src="js/auth.js?v=2"></script>
+<script src="https://cdn.auth0.com/js/auth0-spa-js/2.18/auth0-spa-js.production.js"></script>
+<script type="module" src="js/main.js?v=4"></script>
 
 </body>
 </html>
