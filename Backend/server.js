@@ -64,7 +64,7 @@ app.get("/auth-config", (req, res) => {
     domain: AUTH0_DOMAIN,
     clientId: AUTH0_CLIENT_ID,
     redirectUri: AUTH0_REDIRECT_URI || `${req.protocol}://${req.get("host")}/auth/callback`,
-    logoutRedirectUri: AUTH0_LOGOUT_REDIRECT_URI || `${req.protocol}://${req.get("host")}/index.html`
+    logoutRedirectUri: AUTH0_LOGOUT_REDIRECT_URI || `${req.protocol}://${req.get("host")}`
   });
 });
 

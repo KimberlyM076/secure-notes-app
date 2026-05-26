@@ -29,6 +29,16 @@ function getDefaultLogoutUri() {
     return `${resolvedApiBaseUrl || FALLBACK_API_BASE_URL}/index.html`;
 }
 
+function getSafeLogoutReturnTo(config) {
+    try {
+        const rawValue = config?.logoutRedirectUri || getDefaultLogoutUri();
+        const parsed = new URL(rawValue, window.location.origin);
+        return parsed.origin;
+    } catch {
+        return window.location.origin;
+    }
+}
+
 function normalizeAuthConfig(config) {
     return {
         ...config,
@@ -142,7 +152,7 @@ export async function logout() {
     const client = await getAuthClient();
     await client.logout({
         logoutParams: {
-            returnTo: config.logoutRedirectUri
+            returnTo: getSafeLogoutReturnTo(config)
         }
     });
 }
